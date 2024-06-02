@@ -13,3 +13,19 @@
 
   GetProductFailureState({required this.error});
  }
+
+ //Get Products Categories
+ class GetProductsCategoriesLoadingState extends ProductsStates {}
+ class GetProductsCategoriesSuccessState extends ProductsStates {}
+ class GetProductsCategoriesFailureState extends ProductsStates {
+  final String error;
+
+  GetProductsCategoriesFailureState({required this.error});
+ }
+
+
+ //GetProductCategoryByID
+
+ class GetProductsByCategoryState extends ProductsStates {}
+
+ class NoItemsForSelectedCategoryState extends ProductsStates {}
