@@ -30,14 +30,14 @@ class ProductDetailsScreen extends StatelessWidget {
                   showModalBottomSheet(
                     context: context,
                     builder: (context) => CustomBottomSheet(
-                      imageUrl: product.imageUrl,
+                      imageUrl: product.imageUrl ?? 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
                     ),
                   );
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Image.network(
-                    product.imageUrl,
+                    product.imageUrl ??'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
                     fit: BoxFit.contain,
                     width: double.infinity,
                     height: MediaQuery.sizeOf(context).height * .25,

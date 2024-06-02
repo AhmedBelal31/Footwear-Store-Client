@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:footwear_store_client/core/utils/styles.dart';
 import '../../../data/models/product_model.dart';
@@ -37,10 +38,14 @@ class ProductGridViewItem extends StatelessWidget {
               SizedBox(
                 height: screenHeight * 0.180,
                 width: double.infinity,
-                child: Image.network(
-                  product.imageUrl,
-                  // fit: BoxFit.contain,
-                ),
+                // child: Image.network(
+                //   product.imageUrl,
+                //   // fit: BoxFit.contain,
+                // ),
+                child:FancyShimmerImage(
+                  imageUrl: product.imageUrl!,
+                  errorWidget: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'),
+                )
               ),
               const SizedBox(height: 4),
               Text(
