@@ -9,7 +9,7 @@ class ProductModel {
 
   String description;
 
-  String imageUrl;
+  String? imageUrl;
 
   String name;
   double price;
@@ -22,7 +22,7 @@ class ProductModel {
     required this.category,
     required this.brand,
     required this.description,
-    required this.imageUrl,
+    this.imageUrl,
     required this.name,
     required this.price,
     required this.offer,
