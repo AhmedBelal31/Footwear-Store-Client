@@ -17,9 +17,9 @@ class ProductsGridView extends StatelessWidget {
         // TODO: implement listener
       },
       builder: (context, state) {
-
         var cubit = BlocProvider.of<ProductsCubit>(context);
-        if (cubit.products.isEmpty && state is! GetProductLoadingState) {
+        // if (cubit.products.isEmpty && state is! GetProductLoadingState)
+        if (2 > 3) {
           return const Center(child: Text('There Is No Products '));
         } else {
           if (state is GetProductFailureState) {
@@ -29,6 +29,14 @@ class ProductsGridView extends StatelessWidget {
               child: CircularProgressIndicator(color: AppStyles.kPrimaryColor),
             );
           } else {
+            if (state is NoItemsForSelectedCategoryState) {
+              return const Center(
+                child: Text(
+                  'No Items for this Category 😟',
+                  style: TextStyle(fontSize: 20),
+                ),
+              );
+            }
             return RefreshIndicator(
               onRefresh: () async {
                 cubit.fetchAllProducts();
@@ -37,17 +45,24 @@ class ProductsGridView extends StatelessWidget {
                 color: Colors.grey[300],
                 child: GridView.builder(
                   physics: const BouncingScrollPhysics(),
-                  gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                     // childAspectRatio:.8,
-                    childAspectRatio: screenWidth/screenHeight*1.58,
+                    // childAspectRatio:.8,
+                    childAspectRatio: screenWidth / screenHeight * 1.58,
                     mainAxisSpacing: 1,
-                    crossAxisSpacing:1,
+                    crossAxisSpacing: 1,
                   ),
                   itemBuilder: (context, index) {
-                    return ProductGridViewItem(product: cubit.products[index]);
+                    return ProductGridViewItem(
+                        product: cubit.filterProductsByCategory.isEmpty &&
+                                cubit.isFound == true
+                            ? cubit.products[index]
+                            : cubit.filterProductsByCategory[index]);
                   },
-                  itemCount: cubit.products.length,
+                  itemCount: cubit.filterProductsByCategory.isEmpty &&
+                          cubit.isFound == true
+                      ? cubit.products.length
+                      : cubit.filterProductsByCategory.length,
                 ),
               ),
             );

@@ -55,14 +55,29 @@ class ProductGridViewItem extends StatelessWidget {
                 style: const TextStyle(fontSize: 14, height: 1.3),
               ),
               const SizedBox(height: 8),
-              Text(
-                '${product.price}\$',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: AppStyles.kPrimaryColor),
+              Row(
+                children: [
+                  Text(
+                    // '${product.price}\$',
+                    product.category,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                       ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                   '${product.price}\$',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: AppStyles.kPrimaryColor),
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
               if (product.offer == true)
