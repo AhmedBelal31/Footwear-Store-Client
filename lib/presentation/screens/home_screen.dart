@@ -31,7 +31,8 @@ class HomeScreen extends StatelessWidget {
                     child: CustomDropDownBtn(
                       selectedItemText: cubit.selectedSort ?? 'Sort Items',
                       onValueChanged: (value) {
-                        cubit.changeDropDownButtonSort(value);
+                        // cubit.changeDropDownButtonSort(value);
+                        cubit.changeSortOrder(value);
                       },
                     ),
                   ),

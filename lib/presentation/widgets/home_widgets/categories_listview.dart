@@ -19,7 +19,7 @@ class CategoriesListView extends StatelessWidget {
           return InkWell(
             onTap: () {
               BlocProvider.of<ProductsCubit>(context)
-                  .filterAllProductsByCategory(categoryItems[index].name);
+                  .filterProductsByCategory(categoryItems[index].name);
             },
             child: Padding(
               padding: const EdgeInsets.all(5.0),

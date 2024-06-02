@@ -19,6 +19,7 @@ class ProductsGridView extends StatelessWidget {
       builder: (context, state) {
         var cubit = BlocProvider.of<ProductsCubit>(context);
         // if (cubit.products.isEmpty && state is! GetProductLoadingState)
+        ///TO DO :
         if (2 > 3) {
           return const Center(child: Text('There Is No Products '));
         } else {
@@ -54,15 +55,15 @@ class ProductsGridView extends StatelessWidget {
                   ),
                   itemBuilder: (context, index) {
                     return ProductGridViewItem(
-                        product: cubit.filterProductsByCategory.isEmpty &&
+                        product: cubit.filteredProducts.isEmpty &&
                                 cubit.isFound == true
                             ? cubit.products[index]
-                            : cubit.filterProductsByCategory[index]);
+                            : cubit.filteredProducts[index]);
                   },
-                  itemCount: cubit.filterProductsByCategory.isEmpty &&
+                  itemCount: cubit.filteredProducts.isEmpty &&
                           cubit.isFound == true
                       ? cubit.products.length
-                      : cubit.filterProductsByCategory.length,
+                      : cubit.filteredProducts.length,
                 ),
               ),
             );
