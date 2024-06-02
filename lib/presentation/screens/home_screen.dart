@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
           return Column(
             children: [
               const SizedBox(height: 10),
-              const CategoriesListView(),
+              CategoriesListView(categoryItems: cubit.productsCategories),
               const SizedBox(height: 10),
               Row(
                 children: [
