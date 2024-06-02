@@ -10,11 +10,14 @@ class ProductsGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
     return BlocConsumer<ProductsCubit, ProductsStates>(
       listener: (context, state) {
         // TODO: implement listener
       },
       builder: (context, state) {
+
         var cubit = BlocProvider.of<ProductsCubit>(context);
         if (cubit.products.isEmpty && state is! GetProductLoadingState) {
           return const Center(child: Text('There Is No Products '));
@@ -30,15 +33,16 @@ class ProductsGridView extends StatelessWidget {
               onRefresh: () async {
                 cubit.fetchAllProducts();
               },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              child: Container(
+                color: Colors.grey[300],
                 child: GridView.builder(
                   physics: const BouncingScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 1 / 1.4,
-                    mainAxisSpacing: 8,
-                    crossAxisSpacing: 8,
+                     // childAspectRatio:.8,
+                    childAspectRatio: screenWidth/screenHeight*1.58,
+                    mainAxisSpacing: 1,
+                    crossAxisSpacing:1,
                   ),
                   itemBuilder: (context, index) {
                     return ProductGridViewItem(product: cubit.products[index]);
