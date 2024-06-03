@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:footwear_store_client/presentation/controller/products_cubit.dart';
 import 'package:footwear_store_client/presentation/screens/home_screen.dart';
 import 'package:footwear_store_client/presentation/screens/login_screen.dart';
 import 'package:footwear_store_client/presentation/screens/register_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'core/services/stripe_keys.dart';
 import 'core/utils/bloc_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = stripePublishableKey;
   await Firebase.initializeApp();
   Bloc.observer = MyBlocObserver();
   runApp(const FootWearStoreClient());

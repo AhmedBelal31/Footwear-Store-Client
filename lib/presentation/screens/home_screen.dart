@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:footwear_store_client/core/services/payment_service.dart';
 import 'package:footwear_store_client/presentation/controller/products_cubit.dart';
 import 'package:footwear_store_client/presentation/controller/products_state.dart';
 import '../widgets/home_widgets/categories_listview.dart';
@@ -24,6 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
+      floatingActionButton: FloatingActionButton(
+        onPressed:()
+        {
+          StripeService stripeService = StripeService();
+          await stripeService.createPaymentIntent();
+        },
+        child:const Icon(Icons.payment),
+      ),
       body: BlocConsumer<ProductsCubit, ProductsStates>(
         listener: (context, state) {
           // TODO: implement listener

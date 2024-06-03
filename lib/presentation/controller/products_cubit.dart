@@ -118,13 +118,18 @@ class ProductsCubit extends Cubit<ProductsStates> {
       for (var element in values.docs) {
         productsBrands.add(ProductCategoryOrBrandModel.fromJson(element.data()));
       }
-      for(int i =0 ; i <productsBrands.length ;i++)
-        {
-          print(productsBrands[i].name);
-        }
+      // for(int i =0 ; i <productsBrands.length ;i++)
+      //   {
+      //     print(productsBrands[i].name);
+      //   }
       emit(GetProductsBrandSuccessState());
     }).catchError((error) {
       emit(GetProductsBrandFailureState(error: error.toString()));
     });
   }
+
+
+
+
+
 }
