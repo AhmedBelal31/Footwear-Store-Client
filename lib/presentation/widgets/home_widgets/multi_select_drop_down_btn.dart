@@ -131,7 +131,9 @@ class _MultiSelectDropDownBtnState extends State<MultiSelectDropDownBtn> {
     List<String> selectedItems = [];
     return BlocBuilder<ProductsCubit, ProductsStates>(
   builder: (context, state) {
-    if(state is GetProductSuccessState || cubit.productsBrands.isNotEmpty) {
+    if(state is GetProductSuccessState || cubit.productsBrands.isNotEmpty)
+
+    {
       return Card(
       child: Center(
         child: DropdownButtonHideUnderline(
@@ -226,10 +228,16 @@ class _MultiSelectDropDownBtnState extends State<MultiSelectDropDownBtn> {
     );
     } else
       {
-        return const SizedBox(
-          height: 30,
-          width: 30,
-          child: CircularProgressIndicator(color: AppStyles.kPrimaryColor),
+        return const Row(
+          children: [
+            Expanded(child: SizedBox()),
+            SizedBox(
+              height: 25,
+              width: 25,
+              child: CircularProgressIndicator(color: AppStyles.kPrimaryColor),
+            ),
+            Expanded(child: SizedBox()),
+          ],
         );
       }
   },

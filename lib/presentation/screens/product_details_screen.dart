@@ -1,12 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:footwear_store_client/core/utils/styles.dart';
 import 'package:footwear_store_client/data/models/product_model.dart';
 import 'package:footwear_store_client/presentation/widgets/custom_text_field.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   final ProductModel product;
 
   const ProductDetailsScreen({super.key, required this.product});
+
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  String? _imageError;
+
+  bool isValidUrl(String url) {
+    const urlPattern =
+        r'^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}(:[0-9]{1,5})?(\/.*)?$';
+    return RegExp(urlPattern).hasMatch(url);
+  }
+
+  Future<bool> isImageAccessible(String url) async {
+    try {
+      final response = await http.get(Uri.parse(url));
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  void _validateAndDisplayImage(BuildContext context) async {
+    final url = widget.product.imageUrl ??
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png';
+
+    if (!isValidUrl(url)) {
+      setState(() {
+        _imageError = 'Invalid URL format';
+      });
+      return;
+    }
+
+    if (await isImageAccessible(url)) {
+      setState(() {
+        _imageError = null;
+      });
+      showModalBottomSheet(
+        context: context,
+        builder: (context) => CustomBottomSheet(imageUrl: url),
+      );
+    } else {
+      setState(() {
+        _imageError = 'Image not accessible';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +64,7 @@ class ProductDetailsScreen extends StatelessWidget {
         centerTitle: true,
         scrolledUnderElevation: 0,
         title: const Text(
-          'Product Deatils ',
+          'Product Details',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
@@ -26,37 +75,39 @@ class ProductDetailsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GestureDetector(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) => CustomBottomSheet(
-                      imageUrl: product.imageUrl ?? 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
-                    ),
-                  );
-                },
+                onTap: () => _validateAndDisplayImage(context),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Image.network(
-                    product.imageUrl ??'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
+                    widget.product.imageUrl ??
+                        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
                     fit: BoxFit.contain,
                     width: double.infinity,
                     height: MediaQuery.sizeOf(context).height * .25,
+                    errorBuilder: (context, error, stackTrace) {
+                      // return const Text('Invalid URL format');
+                      return Center(
+                        child: Image.network(
+                            height: 200,
+                            'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'),
+                      );
+                    },
                   ),
                 ),
               ),
               const SizedBox(height: 20),
               Text(
-                product.name ?? 'No-Name',
+                widget.product.name,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 18),
-              Text(product.description ?? 'No-Description'),
+              Text(widget.product.description),
               const SizedBox(height: 20),
               Text(
-                'Rs: ${product.price}',
+                'Rs: ${widget.product.price}',
                 style: const TextStyle(
                   color: Colors.green,
                   fontSize: 22,
@@ -86,6 +137,14 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              if (_imageError != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Text(
+                    _imageError!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ),
             ],
           ),
         ),
@@ -97,10 +156,7 @@ class ProductDetailsScreen extends StatelessWidget {
 class CustomBottomSheet extends StatelessWidget {
   final String imageUrl;
 
-  const CustomBottomSheet({
-    super.key,
-    required this.imageUrl,
-  });
+  const CustomBottomSheet({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +165,9 @@ class CustomBottomSheet extends StatelessWidget {
       child: Image.network(
         imageUrl,
         fit: BoxFit.cover,
-        // width: double.infinity,
-        // height: MediaQuery.sizeOf(context).height * .35,
+        errorBuilder: (context, error, stackTrace) {
+          return const Text('Error loading image');
+        },
       ),
     );
   }

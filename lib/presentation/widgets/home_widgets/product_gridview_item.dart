@@ -23,7 +23,9 @@ class ProductGridViewItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ProductDetailsScreen(product: product),
+            builder: (context) => ProductDetailsScreen(
+              product: product
+            ),
           ),
         );
       },
@@ -36,20 +38,21 @@ class ProductGridViewItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: screenHeight * 0.180,
-                width: double.infinity,
-                // child: Image.network(
-                //   product.imageUrl,
-                //   // fit: BoxFit.contain,
-                // ),
-                child:FancyShimmerImage(
-                  imageUrl: product.imageUrl!,
-                  errorWidget: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'),
-                )
-              ),
+                  height: screenHeight * 0.180,
+                  width: double.infinity,
+                  // child: Image.network(
+                  //   product.imageUrl,
+                  //   // fit: BoxFit.contain,
+                  // ),
+                  child: FancyShimmerImage(
+                    imageUrl: product.imageUrl ??
+                        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
+                    errorWidget: Image.network(
+                        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'),
+                  )),
               const SizedBox(height: 4),
               Text(
-                product.name ,
+                product.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 14, height: 1.3),
@@ -63,13 +66,13 @@ class ProductGridViewItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                       ),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Text(
-                   '${product.price}\$',
+                    '${product.price}\$',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
