@@ -29,3 +29,12 @@
  class GetProductsByCategoryState extends ProductsStates {}
 
  class NoItemsForSelectedCategoryState extends ProductsStates {}
+
+ //Get Products Brand
+ class GetProductsBrandLoadingState extends ProductsStates {}
+ class GetProductsBrandSuccessState extends ProductsStates {}
+ class GetProductsBrandFailureState extends ProductsStates {
+  final String error;
+
+  GetProductsBrandFailureState({required this.error});
+ }

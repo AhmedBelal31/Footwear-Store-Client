@@ -1,16 +1,138 @@
+// import 'package:dropdown_button2/dropdown_button2.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:footwear_store_client/presentation/controller/products_cubit.dart';
+//
+//
+//
+// class MultiSelectDropDownBtn extends StatelessWidget {
+//
+//   const MultiSelectDropDownBtn({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     var cubit = BlocProvider.of<ProductsCubit>(context) ;
+//     List<String> selectedItems = [];
+//     return Card(
+//       child: Center(
+//         child: DropdownButtonHideUnderline(
+//           child: DropdownButton2<String>(
+//             isExpanded: true,
+//             hint: Text(
+//               'Filter Brand',
+//               style: TextStyle(
+//                 fontSize: 14,
+//                 color: Theme.of(context).hintColor,
+//               ),
+//             ),
+//             items: cubit.productsBrands.map((item) {
+//               return DropdownMenuItem(
+//                 value: item.name,
+//                 child: StatefulBuilder(
+//                   builder: (context, menuSetState) {
+//                     final isSelected = selectedItems.contains(item.name);
+//                     return InkWell(
+//                       onTap: () {
+//                         isSelected ? selectedItems.remove(item.name) : selectedItems.add(item.name);
+//                         cubit.filterProductsByBrand(selectedItems);
+//                         menuSetState(() {});
+//                       },
+//                       child: Container(
+//                         height: double.infinity,
+//                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//
+//                         child: Row(
+//                           children: [
+//                             if (isSelected)
+//                               const Icon(Icons.check_box_outlined)
+//                             else
+//                               const Icon(Icons.check_box_outline_blank),
+//                             const SizedBox(width: 16),
+//                             Expanded(
+//                               child: Text(
+//                                 item.name,
+//                                 style: const TextStyle(
+//                                   fontSize: 14,
+//                                 ),
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     );
+//                   },
+//                 ),
+//               );
+//
+//
+//             }).toList(),
+//             value: selectedItems.isEmpty ? null : selectedItems.last,
+//             onChanged: (value) {},
+//             selectedItemBuilder: (context) {
+//               return cubit.productsBrands.map(
+//                     (item) {
+//                   return Container(
+//                     alignment: AlignmentDirectional.center,
+//                     child: Text(
+//                       selectedItems.join(', '),
+//                       style: const TextStyle(
+//                         fontSize: 14,
+//                         overflow: TextOverflow.ellipsis,
+//                       ),
+//                       maxLines: 1,
+//                     ),
+//                   );
+//                 },
+//               ).toList();
+//             },
+//             buttonStyleData: const ButtonStyleData(
+//               padding: EdgeInsets.only(left: 16, right: 8),
+//               height: 40,
+//               width: 140,
+//             ),
+//             menuItemStyleData: const MenuItemStyleData(
+//               height: 40,
+//               padding: EdgeInsets.zero,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:footwear_store_client/core/utils/styles.dart';
+import 'package:footwear_store_client/presentation/controller/products_cubit.dart';
+import 'package:footwear_store_client/presentation/controller/products_state.dart';
+
+class MultiSelectDropDownBtn extends StatefulWidget {
 
 
-
-class MultiSelectDropDownBtn extends StatelessWidget {
   const MultiSelectDropDownBtn({super.key});
 
   @override
+  State<MultiSelectDropDownBtn> createState() => _MultiSelectDropDownBtnState();
+}
+
+class _MultiSelectDropDownBtnState extends State<MultiSelectDropDownBtn> {
+  @override
+  void initState() {
+    BlocProvider.of<ProductsCubit>(context).fetchAllProductsBrands();
+    print( BlocProvider.of<ProductsCubit>(context).productsBrands);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    List<String> brandItems = ['Adidas', 'Nike', 'Crocs', 'Clarks', 'Skechers'];
+    var cubit = BlocProvider.of<ProductsCubit>(context);
     List<String> selectedItems = [];
-    return Card(
+    return BlocBuilder<ProductsCubit, ProductsStates>(
+  builder: (context, state) {
+    if(state is GetProductSuccessState || cubit.productsBrands.isNotEmpty) {
+      return Card(
       child: Center(
         child: DropdownButtonHideUnderline(
           child: DropdownButton2<String>(
@@ -22,20 +144,18 @@ class MultiSelectDropDownBtn extends StatelessWidget {
                 color: Theme.of(context).hintColor,
               ),
             ),
-            items: brandItems.map((item) {
+            items: cubit.productsBrands.map((item) {
               return DropdownMenuItem(
-                value: item,
-                //disable default onTap to avoid closing menu when selecting an item
-                enabled: false,
+                value: item.name,
                 child: StatefulBuilder(
                   builder: (context, menuSetState) {
-                    final isSelected = selectedItems.contains(item);
+                    final isSelected = selectedItems.contains(item.name);
                     return InkWell(
                       onTap: () {
-                        isSelected ? selectedItems.remove(item) : selectedItems.add(item);
-      
-      
-                        //This rebuilds the dropdownMenu Widget to update the check mark
+                        isSelected
+                            ? selectedItems.remove(item.name)
+                            : selectedItems.add(item.name);
+                        cubit.filterProductsByBrand(selectedItems);
                         menuSetState(() {});
                       },
                       child: Container(
@@ -50,7 +170,7 @@ class MultiSelectDropDownBtn extends StatelessWidget {
                             const SizedBox(width: 16),
                             Expanded(
                               child: Text(
-                                item,
+                                item.name,
                                 style: const TextStyle(
                                   fontSize: 14,
                                 ),
@@ -64,11 +184,18 @@ class MultiSelectDropDownBtn extends StatelessWidget {
                 ),
               );
             }).toList(),
-            //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
             value: selectedItems.isEmpty ? null : selectedItems.last,
-            onChanged: (value) {},
+            onChanged: (value) {
+              // This is where you handle the change of the selected item
+              // In this case, you can update the selectedItems list
+              selectedItems.clear();
+              if (value != null) {
+                selectedItems.add(value);
+              }
+              cubit.filterProductsByBrand(selectedItems);
+            },
             selectedItemBuilder: (context) {
-              return brandItems.map(
+              return cubit.productsBrands.map(
                     (item) {
                   return Container(
                     alignment: AlignmentDirectional.center,
@@ -97,5 +224,15 @@ class MultiSelectDropDownBtn extends StatelessWidget {
         ),
       ),
     );
+    } else
+      {
+        return const SizedBox(
+          height: 30,
+          width: 30,
+          child: CircularProgressIndicator(color: AppStyles.kPrimaryColor),
+        );
+      }
+  },
+);
   }
 }

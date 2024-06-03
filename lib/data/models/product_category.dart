@@ -1,12 +1,12 @@
-class ProductCategoryModel {
+class ProductCategoryOrBrandModel {
   final String id;
 
   final String name;
 
-  const ProductCategoryModel({required this.id, required this.name});
+  const ProductCategoryOrBrandModel({required this.id, required this.name});
 
-  factory ProductCategoryModel.fromJson(Map<String, dynamic> json) {
-    return ProductCategoryModel(
+  factory ProductCategoryOrBrandModel.fromJson(Map<String, dynamic> json) {
+    return ProductCategoryOrBrandModel(
       id: json['id'],
       name: json['name'],
     );

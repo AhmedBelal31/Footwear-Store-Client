@@ -4,7 +4,7 @@ import 'package:footwear_store_client/data/models/product_category.dart';
 import 'package:footwear_store_client/presentation/controller/products_cubit.dart';
 
 class CategoriesListView extends StatelessWidget {
-  final List<ProductCategoryModel> categoryItems;
+  final List<ProductCategoryOrBrandModel> categoryItems;
 
   const CategoriesListView({super.key, required this.categoryItems});
 

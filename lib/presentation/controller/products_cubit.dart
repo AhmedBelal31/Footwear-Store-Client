@@ -9,8 +9,10 @@ class ProductsCubit extends Cubit<ProductsStates> {
   ProductsCubit() : super(ProductsInitialState());
   String? selectedSort;
   List<ProductModel> products = [];
-  List<ProductCategoryModel> productsCategories = [];
+  List<ProductCategoryOrBrandModel> productsCategories = [];
+  List<ProductCategoryOrBrandModel> productsBrands = [];
   List<ProductModel> filteredProducts = [];
+  List<String> selectedBrands = [];
   bool isFound = true;
   List<ProductModel> lowPrice = [];
   String selectedCategory = 'ALL';
@@ -33,6 +35,11 @@ class ProductsCubit extends Cubit<ProductsStates> {
     _filterAndSortProducts();
   }
 
+  void filterProductsByBrand(List<String> brands) {
+    selectedBrands = brands;
+    _filterAndSortProducts();
+  }
+
   void changeSortOrder(String? value) {
     selectedSort = value ?? 'Low to High';
     _filterAndSortProducts();
@@ -42,7 +49,10 @@ class ProductsCubit extends Cubit<ProductsStates> {
     filteredProducts.clear();
 
     for (int i = 0; i < products.length; i++) {
-      if (selectedCategory == 'ALL' || products[i].category == selectedCategory) {
+      if ((selectedCategory == 'ALL' ||
+              products[i].category == selectedCategory) &&
+          (selectedBrands.isEmpty || selectedBrands.contains(products[i].brand))
+      ) {
         filteredProducts.add(products[i]);
       }
     }
@@ -70,8 +80,10 @@ class ProductsCubit extends Cubit<ProductsStates> {
         .get()
         .then((values) {
       products.clear();
+      filteredProducts.clear();
       for (var element in values.docs) {
         products.add(ProductModel.fromJson(element.data()));
+        filteredProducts.add(ProductModel.fromJson(element.data()));
       }
       emit(GetProductSuccessState());
     }).catchError((error) {
@@ -87,7 +99,8 @@ class ProductsCubit extends Cubit<ProductsStates> {
         .then((values) {
       productsCategories.clear();
       for (var element in values.docs) {
-        productsCategories.add(ProductCategoryModel.fromJson(element.data()));
+        productsCategories
+            .add(ProductCategoryOrBrandModel.fromJson(element.data()));
       }
       emit(GetProductsCategoriesSuccessState());
     }).catchError((error) {
@@ -95,46 +108,23 @@ class ProductsCubit extends Cubit<ProductsStates> {
     });
   }
 
-  // void filterAllProductsByCategory(String productCategory) {
-  //   filterProductsByCategory.clear();
-  //   for (int i = 0; i < products.length; i++) {
-  //     if (productCategory == 'ALL') {
-  //       if (filterProductsByCategory.length != products.length) {
-  //         filterProductsByCategory.addAll(products);
-  //         print(isFound);
-  //       }
-  //     } else {
-  //       if (products[i].category == productCategory) {
-  //         filterProductsByCategory.add(products[i]);
-  //       }
-  //     }
-  //   }
-  //   if (filterProductsByCategory.isEmpty) {
-  //     isFound = false;
-  //     emit(NoItemsForSelectedCategoryState());
-  //   } else {
-  //     emit(GetProductsByCategoryState());
-  //   }
-  // }
-
-  // void filterProductsByCategory(String productCategory) {
-  //   filteredProducts.clear();
-  //   for (int i = 0; i < products.length; i++) {
-  //     if (productCategory == 'ALL') {
-  //       if (filteredProducts.length != products.length) {
-  //         filteredProducts.addAll(products);
-  //       }
-  //     } else {
-  //       if (products[i].category == productCategory) {
-  //         filteredProducts.add(products[i]);
-  //       }
-  //     }
-  //   }
-  //   if (filteredProducts.isEmpty) {
-  //     isFound = false;
-  //     emit(NoItemsForSelectedCategoryState());
-  //   } else {
-  //     emit(GetProductsByCategoryState());
-  //   }
-  // }
+  void fetchAllProductsBrands() {
+    emit(GetProductsBrandLoadingState());
+    FirebaseFirestore.instance
+        .collection(kProductsBrandsCollection)
+        .get()
+        .then((values) {
+      productsBrands.clear();
+      for (var element in values.docs) {
+        productsBrands.add(ProductCategoryOrBrandModel.fromJson(element.data()));
+      }
+      for(int i =0 ; i <productsBrands.length ;i++)
+        {
+          print(productsBrands[i].name);
+        }
+      emit(GetProductsBrandSuccessState());
+    }).catchError((error) {
+      emit(GetProductsBrandFailureState(error: error.toString()));
+    });
+  }
 }

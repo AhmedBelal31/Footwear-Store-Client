@@ -7,9 +7,19 @@ import '../widgets/home_widgets/drop_dwon_btn.dart';
 import '../widgets/home_widgets/multi_select_drop_down_btn.dart';
 import '../widgets/home_widgets/product_grid_view.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    BlocProvider.of<ProductsCubit>(context).fetchAllProductsBrands();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +46,9 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  const Expanded(
-                    child: MultiSelectDropDownBtn(),
+                    const Expanded(
+                    child: MultiSelectDropDownBtn(
+                    ),
                   ),
                 ],
               ),

@@ -5,6 +5,7 @@ import '../../controller/products_cubit.dart';
 import '../../controller/products_state.dart';
 import 'product_gridview_item.dart';
 
+
 class ProductsGridView extends StatelessWidget {
   const ProductsGridView({super.key});
 
@@ -18,10 +19,8 @@ class ProductsGridView extends StatelessWidget {
       },
       builder: (context, state) {
         var cubit = BlocProvider.of<ProductsCubit>(context);
-        // if (cubit.products.isEmpty && state is! GetProductLoadingState)
-        ///TO DO :
-        if (2 > 3) {
-          return const Center(child: Text('There Is No Products '));
+        if (cubit.products.isEmpty && state is! GetProductLoadingState) {
+          return const Center(child: Text('There Is No Products'));
         } else {
           if (state is GetProductFailureState) {
             return Text('Error: ${state.error}');
@@ -42,28 +41,38 @@ class ProductsGridView extends StatelessWidget {
               onRefresh: () async {
                 cubit.fetchAllProducts();
               },
-              child: Container(
-                color: Colors.grey[300],
-                child: GridView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    // childAspectRatio:.8,
-                    childAspectRatio: screenWidth / screenHeight * 1.58,
-                    mainAxisSpacing: 1,
-                    crossAxisSpacing: 1,
+              child: SingleChildScrollView(
+                // physics: const AlwaysScrollableScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: screenHeight,
                   ),
-                  itemBuilder: (context, index) {
-                    return ProductGridViewItem(
-                        product: cubit.filteredProducts.isEmpty &&
-                                cubit.isFound == true
-                            ? cubit.products[index]
-                            : cubit.filteredProducts[index]);
-                  },
-                  itemCount: cubit.filteredProducts.isEmpty &&
-                          cubit.isFound == true
-                      ? cubit.products.length
-                      : cubit.filteredProducts.length,
+                  child: Container(
+                     color: Colors.grey[300],
+                    child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: screenWidth / screenHeight * 1.55,
+                        mainAxisSpacing: 1,
+                        crossAxisSpacing: 1,
+                      ),
+                      itemBuilder: (context, index) {
+                        return ProductGridViewItem(
+                          product: cubit.filteredProducts.isEmpty &&
+                                  cubit.isFound == true
+                              ? cubit.products[index]
+                              : cubit.filteredProducts[index],
+                        );
+                      },
+                      itemCount: cubit.filteredProducts.isEmpty &&
+                              cubit.isFound == true
+                          ? cubit.products.length
+                          : cubit.filteredProducts.length,
+                      shrinkWrap: true,
+                    ),
+                  ),
                 ),
               ),
             );
@@ -73,3 +82,8 @@ class ProductsGridView extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
