@@ -27,7 +27,6 @@ class StripeService {
     var result = jsonDecode(response.body);
 
     var paymentIntentModel = PaymentIntentModel.fromJson(result);
-    print(paymentIntentModel.clientSecret);
     return paymentIntentModel;
   }
 
@@ -67,14 +66,9 @@ class StripeService {
 
    Future<void> makePayment({required int amount, required String currency}) async
    {
-     try {
-       var paymentIntentModel = await createPaymentIntent(amount:amount ,currency:currency );
-        await  initPaymentSheet(paymentIntentClientSecret: paymentIntentModel.clientSecret!);
-        await presentPaymentSheet() ;
-     } catch (error) {
-       print(error.toString());
-
-     }
+     var paymentIntentModel = await createPaymentIntent(amount:amount ,currency:currency );
+     await  initPaymentSheet(paymentIntentClientSecret: paymentIntentModel.clientSecret!);
+     await presentPaymentSheet() ;
    }
 
 
