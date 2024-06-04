@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:footwear_store_client/data/models/order_product_model.dart';
 import 'package:footwear_store_client/presentation/controller/products_state.dart';
 import '../../const.dart';
+import '../../core/services/payment_service.dart';
+import '../../core/services/stripe_keys.dart';
 import '../../data/models/product_category.dart';
 import '../../data/models/product_model.dart';
 
@@ -51,8 +54,8 @@ class ProductsCubit extends Cubit<ProductsStates> {
     for (int i = 0; i < products.length; i++) {
       if ((selectedCategory == 'ALL' ||
               products[i].category == selectedCategory) &&
-          (selectedBrands.isEmpty || selectedBrands.contains(products[i].brand))
-      ) {
+          (selectedBrands.isEmpty ||
+              selectedBrands.contains(products[i].brand))) {
         filteredProducts.add(products[i]);
       }
     }
@@ -116,7 +119,8 @@ class ProductsCubit extends Cubit<ProductsStates> {
         .then((values) {
       productsBrands.clear();
       for (var element in values.docs) {
-        productsBrands.add(ProductCategoryOrBrandModel.fromJson(element.data()));
+        productsBrands
+            .add(ProductCategoryOrBrandModel.fromJson(element.data()));
       }
       // for(int i =0 ; i <productsBrands.length ;i++)
       //   {
@@ -128,8 +132,62 @@ class ProductsCubit extends Cubit<ProductsStates> {
     });
   }
 
+  // void createPayment({required String currency, required int amount}) async {
+  //   StripeService stripeService = StripeService();
+  //   emit(StripeLoadingState());
+  //   try {
+  //     await stripeService.makePayment(
+  //       amount: amount,
+  //       currency: currency,
+  //     );
+  //
+  //     emit(StripeSuccessState());
+  //   } catch (error) {
+  //     emit(StripeFailureState(error: error.toString()));
+  //   }
+  // }
+  StripeService stripeService = StripeService();
 
+  Future<void> createPayment({
+    required int amount,
+    required String currency,
+    required OrderProductModel orderProductModel,
+  }) async {
+    emit(CreateOrderLoadingState());
+    // String? customerId = await stripeService.getCustomerId();
+    // if (customerId == null) {
+    //   emit(CreateOrderFailureState(error: 'Customer ID not found'));
+    //   return;
+    // }
+    try {
+      String? transactionId = await stripeService.makePayment(
+        amount: amount,
+        currency: currency,
+      );
+      if (transactionId != null) {
+        OrderProductModel updatedOrder = orderProductModel.copyWith(
+          transactionId: transactionId,
+        );
+        createOrder(orderProductModel: updatedOrder);
+      } else {
+        emit(CreateOrderFailureState(error: 'Payment failed'));
+      }
+    } catch (e) {
+      emit(CreateOrderFailureState(error: e.toString()));
+    }
+  }
 
+  void createOrder({required OrderProductModel orderProductModel}) {
 
-
+    emit(CreateOrderLoadingState());
+    FirebaseFirestore.instance
+        .collection(kProductsOrdersCollection)
+        .doc()
+        .set(orderProductModel.toJson())
+        .then((values) {
+      emit(CreateOrderSuccessState());
+    }).catchError((error) {
+      emit(CreateOrderFailureState(error: error.toString()));
+    });
+  }
 }

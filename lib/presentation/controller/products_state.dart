@@ -38,3 +38,23 @@
 
   GetProductsBrandFailureState({required this.error});
  }
+
+ // Stripe Payment
+ class StripeLoadingState extends ProductsStates {}
+ class StripeSuccessState extends ProductsStates {}
+ class StripeFailureState extends ProductsStates {
+  final String error;
+
+  StripeFailureState({required this.error});
+ }
+
+
+ //Create Orders
+
+ class CreateOrderLoadingState extends ProductsStates {}
+ class CreateOrderSuccessState extends ProductsStates {}
+ class CreateOrderFailureState extends ProductsStates {
+  final String error;
+
+  CreateOrderFailureState({required this.error});
+ }
