@@ -14,24 +14,25 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final IconData? prefixIcon;
 
-  const CustomTextField(
-      {super.key,
-      required this.hintText,
-      this.labelText,
-      this.prefixIcon,
-      this.maxLines = 1,
-      this.controller,
-      this.onFieldSubmitted,
-      this.onChanged,
-      this.validator,
-      this.obscureText = false,
-      this.autovalidateMode,
-      this.keyboardType});
+  const CustomTextField({
+    super.key,
+    required this.hintText,
+    this.labelText,
+    this.prefixIcon,
+    this.maxLines = 1,
+    this.controller,
+    this.onFieldSubmitted,
+    this.onChanged,
+    this.validator,
+    this.obscureText = false,
+    this.autovalidateMode,
+    this.keyboardType,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(7.0),
       child: TextFormField(
         controller: controller,
         onFieldSubmitted: onFieldSubmitted,
@@ -45,8 +46,8 @@ class CustomTextField extends StatelessWidget {
           hintText: hintText,
           labelText: labelText,
           prefixIcon: Icon(prefixIcon),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          // contentPadding:
+          //     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
