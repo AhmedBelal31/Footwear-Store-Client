@@ -25,14 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      floatingActionButton: FloatingActionButton(
-        onPressed:()
-        {
-          StripeService stripeService = StripeService();
-          await stripeService.createPaymentIntent();
-        },
-        child:const Icon(Icons.payment),
-      ),
       body: BlocConsumer<ProductsCubit, ProductsStates>(
         listener: (context, state) {
           // TODO: implement listener

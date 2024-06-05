@@ -32,7 +32,7 @@ class ProductsGridView extends StatelessWidget {
             if (state is NoItemsForSelectedCategoryState) {
               return const Center(
                 child: Text(
-                  'No Items for this Category 😟',
+                  'No Items Found ! 😟',
                   style: TextStyle(fontSize: 20),
                 ),
               );
