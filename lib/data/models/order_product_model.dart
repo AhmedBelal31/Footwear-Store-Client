@@ -6,6 +6,9 @@ class OrderProductModel {
   final String price;
   final String transactionId;
   final String dateTime;
+  final String productCategory;
+  final String productBrand;
+  final String productImageUrl;
 
   const OrderProductModel({
     required this.address,
@@ -15,6 +18,9 @@ class OrderProductModel {
     required this.price,
     required this.transactionId,
     required this.dateTime,
+    required this.productCategory,
+    required this.productBrand,
+    required this.productImageUrl,
   });
 
   factory OrderProductModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +32,9 @@ class OrderProductModel {
       price: json['price'],
       transactionId: json['transactionId'],
       dateTime: json['dateTime'],
+      productCategory: json['productCategory'],
+      productBrand: json['productBrand'],
+      productImageUrl: json['productImageUrl'],
     );
   }
 
@@ -38,6 +47,9 @@ class OrderProductModel {
       'price': price,
       'transactionId': transactionId,
       'dateTime': dateTime,
+      'productCategory': productCategory,
+      'productBrand': productBrand,
+      'productImageUrl': productImageUrl,
     };
   }
 
@@ -49,6 +61,9 @@ class OrderProductModel {
     String? price,
     String? transactionId,
     String? dateTime,
+    String? productCategory,
+    String? productBrand,
+    String? productImageUrl,
   }) {
     return OrderProductModel(
       address: address ?? this.address,
@@ -58,6 +73,9 @@ class OrderProductModel {
       price: price ?? this.price,
       transactionId: transactionId ?? this.transactionId,
       dateTime: dateTime ?? this.dateTime,
+      productCategory: productCategory ?? this.productCategory,
+      productBrand: productBrand ?? this.productBrand,
+      productImageUrl: productImageUrl ?? this.productImageUrl,
     );
   }
 }

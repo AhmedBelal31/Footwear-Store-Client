@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:footwear_store_client/presentation/controller/products_cubit.dart';
 import 'package:footwear_store_client/presentation/controller/products_state.dart';
+import 'package:footwear_store_client/presentation/screens/home_screen.dart';
 import 'package:footwear_store_client/presentation/widgets/custom_snack_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:footwear_store_client/core/utils/styles.dart';
@@ -81,35 +82,30 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       body: BlocConsumer<ProductsCubit, ProductsStates>(
         listener: (context, state) {
           if (state is CreateOrderSuccessState) {
-            CustomSnackBarOverlay.show(
-              context,
-              message: 'Success',
-              messageDescription:'Order Created Successfully',
-                msgColor: Colors.green
-            );
+            CustomSnackBarOverlay.show(context,
+                message: 'Success',
+                messageDescription: 'Order Created Successfully',
+                msgColor: Colors.green);
             customerNameController.clear();
             phoneController.clear();
             addressController.clear();
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) =>const HomeScreen(),
+            ));
           }
           if (state is CreateOrderFailureState) {
-            CustomSnackBarOverlay.show(
-              context,
-              message: 'Error',
-              messageDescription:'Order creation failed. Please try again.',
-              msgColor: Colors.red
-            );
-
-
+            CustomSnackBarOverlay.show(context,
+                message: 'Error',
+                messageDescription: 'Order creation failed. Please try again.',
+                msgColor: Colors.red);
           }
           if (state is StripeFailureState) {
-            CustomSnackBarOverlay.show(
-                context,
+            CustomSnackBarOverlay.show(context,
                 message: 'Error',
-                messageDescription:"Something went wrong. Please try again later.",
-                msgColor: Colors.red
-            );
+                messageDescription:
+                    "Something went wrong. Please try again later.",
+                msgColor: Colors.red);
           }
-
         },
         builder: (context, state) {
           var cubit = BlocProvider.of<ProductsCubit>(context);
@@ -223,13 +219,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           transactionId: '',
                           // This will be updated after payment
                           dateTime: DateTime.now().toIso8601String(),
+                          productBrand: widget.product.brand,
+                          productCategory: widget.product.category,
+                          productImageUrl: widget.product.imageUrl ??'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
                         );
                         cubit.createPayment(
                           amount: widget.product.price.toInt(),
                           currency: 'USD',
                           orderProductModel: orderProductModel,
                         );
-
                       },
                     ),
                     const SizedBox(height: 10),
@@ -260,13 +258,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 transactionId: '',
                                 // This will be updated after payment
                                 dateTime: DateTime.now().toIso8601String(),
+                                productBrand: widget.product.brand,
+                                productCategory: widget.product.category,
+                                productImageUrl: widget.product.imageUrl ??'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
                               );
                               cubit.createPayment(
                                 amount: widget.product.price.toInt(),
                                 currency: 'USD',
                                 orderProductModel: orderProductModel,
                               );
-
                             }
                           },
                           icon: const Icon(Icons.payment, size: 18),
