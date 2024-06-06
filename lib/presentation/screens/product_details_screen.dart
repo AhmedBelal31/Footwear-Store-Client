@@ -90,7 +90,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             phoneController.clear();
             addressController.clear();
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>const HomeScreen(),
+              builder: (context) => const HomeScreen(),
             ));
           }
           if (state is CreateOrderFailureState) {
@@ -211,18 +211,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                       onFieldSubmitted: (_) {
                         final orderProductModel = OrderProductModel(
-                          address: addressController.text,
-                          customer: customerNameController.text,
-                          productName: widget.product.name,
-                          phone: phoneController.text,
-                          price: widget.product.price.toString(),
-                          transactionId: '',
-                          // This will be updated after payment
-                          dateTime: DateTime.now().toIso8601String(),
-                          productBrand: widget.product.brand,
-                          productCategory: widget.product.category,
-                          productImageUrl: widget.product.imageUrl ??'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
-                        );
+                            address: addressController.text,
+                            customer: customerNameController.text,
+                            productName: widget.product.name,
+                            phone: phoneController.text,
+                            price: widget.product.price.toString(),
+                            transactionId: '',
+                            // This will be updated after payment
+                            dateTime: DateTime.now().toIso8601String(),
+                            productBrand: widget.product.brand,
+                            productCategory: widget.product.category,
+                            productImageUrl: widget.product.imageUrl ??
+                                'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
+                            description: widget.product.description,
+                            isShipped: false,
+                            orderId: '');
                         cubit.createPayment(
                           amount: widget.product.price.toInt(),
                           currency: 'USD',
@@ -260,7 +263,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 dateTime: DateTime.now().toIso8601String(),
                                 productBrand: widget.product.brand,
                                 productCategory: widget.product.category,
-                                productImageUrl: widget.product.imageUrl ??'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
+                                productImageUrl: widget.product.imageUrl ??
+                                    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
+                                description: widget.product.description,
+                                isShipped: false,
+                                orderId: '',
                               );
                               cubit.createPayment(
                                 amount: widget.product.price.toInt(),

@@ -178,16 +178,15 @@ class ProductsCubit extends Cubit<ProductsStates> {
   }
 
   void createOrder({required OrderProductModel orderProductModel}) {
-
+    var ordersDocs = FirebaseFirestore.instance.collection(kProductsOrdersCollection).doc();
+      var order =  orderProductModel.copyWith(orderId: ordersDocs.id);
     emit(CreateOrderLoadingState());
-    FirebaseFirestore.instance
-        .collection(kProductsOrdersCollection)
-        .doc()
-        .set(orderProductModel.toJson())
-        .then((values) {
+    ordersDocs.set(order.toJson()).then((values) {
       emit(CreateOrderSuccessState());
     }).catchError((error) {
       emit(CreateOrderFailureState(error: error.toString()));
     });
   }
 }
+
+class OrderFieldsInput {}
