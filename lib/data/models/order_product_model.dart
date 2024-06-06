@@ -9,8 +9,11 @@ class OrderProductModel {
   final String productCategory;
   final String productBrand;
   final String productImageUrl;
+  final String description;
+  final String orderId;
+  bool isShipped;
 
-  const OrderProductModel({
+  OrderProductModel({
     required this.address,
     required this.customer,
     required this.productName,
@@ -21,6 +24,10 @@ class OrderProductModel {
     required this.productCategory,
     required this.productBrand,
     required this.productImageUrl,
+    required this.description,
+    required this.orderId,
+    this.isShipped = false,
+
   });
 
   factory OrderProductModel.fromJson(Map<String, dynamic> json) {
@@ -35,6 +42,9 @@ class OrderProductModel {
       productCategory: json['productCategory'],
       productBrand: json['productBrand'],
       productImageUrl: json['productImageUrl'],
+      description: json['description'],
+      orderId: json['orderId'],
+      isShipped: json['isShipped'],
     );
   }
 
@@ -50,6 +60,9 @@ class OrderProductModel {
       'productCategory': productCategory,
       'productBrand': productBrand,
       'productImageUrl': productImageUrl,
+      'description': description,
+      'orderId': orderId,
+      'isShipped': isShipped,
     };
   }
 
@@ -64,6 +77,9 @@ class OrderProductModel {
     String? productCategory,
     String? productBrand,
     String? productImageUrl,
+    String? description,
+    String? orderId,
+    bool? isShipped,
   }) {
     return OrderProductModel(
       address: address ?? this.address,
@@ -76,6 +92,9 @@ class OrderProductModel {
       productCategory: productCategory ?? this.productCategory,
       productBrand: productBrand ?? this.productBrand,
       productImageUrl: productImageUrl ?? this.productImageUrl,
+      description: description ?? this.description,
+      orderId: orderId ?? this.orderId,
+      isShipped: isShipped ?? this.isShipped,
     );
   }
 }
