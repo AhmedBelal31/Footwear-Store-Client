@@ -20,7 +20,7 @@ class ProductsGridView extends StatelessWidget {
       builder: (context, state) {
         var cubit = BlocProvider.of<ProductsCubit>(context);
         if (cubit.products.isEmpty && state is! GetProductLoadingState) {
-          return const Center(child: Text('There Is No Products'));
+          return const Center(child: CircularProgressIndicator(color: AppStyles.kPrimaryColor,));
         } else {
           if (state is GetProductFailureState) {
             return Text('Error: ${state.error}');
@@ -39,7 +39,12 @@ class ProductsGridView extends StatelessWidget {
             }
             return RefreshIndicator(
               onRefresh: () async {
-                cubit.fetchAllProducts();
+                if(cubit.selectedCategory == 'ALL')
+                  {
+                    cubit.fetchAllProducts();
+                  }
+
+
               },
               child: SingleChildScrollView(
                 // physics: const AlwaysScrollableScrollPhysics(),
