@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:footwear_store_client/core/services/payment_service.dart';
-import 'package:footwear_store_client/presentation/controller/products_cubit.dart';
-import 'package:footwear_store_client/presentation/controller/products_state.dart';
+import '../controller/products_cubit.dart';
+import '../controller/products_state.dart';
 import '../widgets/home_widgets/categories_listview.dart';
 import '../widgets/home_widgets/drop_dwon_btn.dart';
 import '../widgets/home_widgets/multi_select_drop_down_btn.dart';

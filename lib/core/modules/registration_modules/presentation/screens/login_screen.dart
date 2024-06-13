@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:footwear_store_client/core/utils/styles.dart';
-import 'package:footwear_store_client/presentation/screens/home_screen.dart';
-import 'package:footwear_store_client/presentation/screens/register_screen.dart';
-
-import '../widgets/custom_text_field.dart';
+import '../../../../utils/widgets/custom_text_field.dart';
+import '../../../home_module/presentation/screens/home_screen.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

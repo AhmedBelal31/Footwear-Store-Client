@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/utils/styles.dart';
+import '../../../../../utils/styles.dart';
 import '../../controller/products_cubit.dart';
 import '../../controller/products_state.dart';
 import 'product_gridview_item.dart';
-
 
 class ProductsGridView extends StatelessWidget {
   const ProductsGridView({super.key});
@@ -20,7 +19,10 @@ class ProductsGridView extends StatelessWidget {
       builder: (context, state) {
         var cubit = BlocProvider.of<ProductsCubit>(context);
         if (cubit.products.isEmpty && state is! GetProductLoadingState) {
-          return const Center(child: CircularProgressIndicator(color: AppStyles.kPrimaryColor,));
+          return const Center(
+              child: CircularProgressIndicator(
+            color: AppStyles.kPrimaryColor,
+          ));
         } else {
           if (state is GetProductFailureState) {
             return Text('Error: ${state.error}');
@@ -39,12 +41,9 @@ class ProductsGridView extends StatelessWidget {
             }
             return RefreshIndicator(
               onRefresh: () async {
-                if(cubit.selectedCategory == 'ALL')
-                  {
-                    cubit.fetchAllProducts();
-                  }
-
-
+                if (cubit.selectedCategory == 'ALL') {
+                  cubit.fetchAllProducts();
+                }
               },
               child: SingleChildScrollView(
                 // physics: const AlwaysScrollableScrollPhysics(),
@@ -54,7 +53,7 @@ class ProductsGridView extends StatelessWidget {
                     minHeight: screenHeight,
                   ),
                   child: Container(
-                     color: Colors.grey[300],
+                    color: Colors.grey[300],
                     child: GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -87,8 +86,3 @@ class ProductsGridView extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

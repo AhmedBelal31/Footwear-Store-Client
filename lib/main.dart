@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:footwear_store_client/presentation/controller/products_cubit.dart';
-import 'package:footwear_store_client/presentation/screens/home_screen.dart';
-import 'package:footwear_store_client/presentation/screens/login_screen.dart';
-import 'package:footwear_store_client/presentation/screens/register_screen.dart';
+import 'package:footwear_store_client/core/modules/registration_modules/presentation/screens/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'core/modules/home_module/presentation/controller/products_cubit.dart';
+import 'core/modules/home_module/presentation/screens/home_screen.dart';
 import 'core/services/stripe_keys.dart';
 import 'core/utils/bloc_observer.dart';
 
@@ -61,7 +60,7 @@ class FootWearStoreClient extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        home: const HomeScreen(),
+        home: const LoginScreen(),
       ),
     );
   }

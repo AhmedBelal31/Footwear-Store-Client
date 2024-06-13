@@ -101,14 +101,15 @@
 //   }
 // }
 //
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:footwear_store_client/core/utils/styles.dart';
-import 'package:footwear_store_client/presentation/controller/products_cubit.dart';
-import 'package:footwear_store_client/presentation/controller/products_state.dart';
+
 import 'dart:math' as math;
+
+import '../../controller/products_cubit.dart';
+import '../../controller/products_state.dart';
 
 class MultiSelectDropDownBtn extends StatefulWidget {
   const MultiSelectDropDownBtn({super.key});

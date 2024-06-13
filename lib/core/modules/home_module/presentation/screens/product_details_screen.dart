@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:footwear_store_client/presentation/controller/products_cubit.dart';
-import 'package:footwear_store_client/presentation/controller/products_state.dart';
-import 'package:footwear_store_client/presentation/screens/home_screen.dart';
-import 'package:footwear_store_client/presentation/widgets/custom_snack_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:footwear_store_client/core/utils/styles.dart';
-import 'package:footwear_store_client/data/models/product_model.dart';
-import 'package:footwear_store_client/presentation/widgets/custom_text_field.dart';
-
+import '../../../../utils/widgets/custom_snack_bar.dart';
+import '../../../../utils/widgets/custom_text_field.dart';
 import '../../data/models/order_product_model.dart';
+import '../../data/models/product_model.dart';
+import '../controller/products_cubit.dart';
+import '../controller/products_state.dart';
+import 'home_screen.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final ProductModel product;

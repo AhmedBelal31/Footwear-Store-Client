@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:footwear_store_client/data/models/order_product_model.dart';
-import 'package:footwear_store_client/presentation/controller/products_state.dart';
-import '../../const.dart';
-import '../../core/services/payment_service.dart';
-import '../../core/services/stripe_keys.dart';
+import 'package:footwear_store_client/core/modules/home_module/presentation/controller/products_state.dart';
+import '../../../../../const.dart';
+import '../../../../services/payment_service.dart';
+import '../../data/models/order_product_model.dart';
 import '../../data/models/product_category.dart';
 import '../../data/models/product_model.dart';
 
@@ -83,10 +82,10 @@ class ProductsCubit extends Cubit<ProductsStates> {
         .get()
         .then((values) {
       products.clear();
-      filteredProducts.clear();
+      // filteredProducts.clear();
       for (var element in values.docs) {
         products.add(ProductModel.fromJson(element.data()));
-        filteredProducts.add(ProductModel.fromJson(element.data()));
+        // filteredProducts.add(ProductModel.fromJson(element.data()));
       }
       emit(GetProductSuccessState());
     }).catchError((error) {

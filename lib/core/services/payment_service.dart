@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:footwear_store_client/core/services/stripe_keys.dart';
 import 'package:http/http.dart' as http;
-import '../../data/models/payment/ephemeral_key_model/ephemeral_key_model.dart';
-import '../../data/models/payment/payment_intent_model/payment_intent_model.dart';
+
+import '../modules/home_module/data/models/payment/ephemeral_key_model/ephemeral_key_model.dart';
+import '../modules/home_module/data/models/payment/payment_intent_model/payment_intent_model.dart';
+
 
 class StripeService {
   String stripeBaseUrl = 'https://api.stripe.com/v1';

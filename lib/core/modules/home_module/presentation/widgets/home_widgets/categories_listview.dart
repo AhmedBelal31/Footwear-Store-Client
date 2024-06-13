@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:footwear_store_client/data/models/product_category.dart';
-import 'package:footwear_store_client/presentation/controller/products_cubit.dart';
-
-import '../../../core/utils/styles.dart';
+import '../../../../../utils/styles.dart';
+import '../../../data/models/product_category.dart';
+import '../../controller/products_cubit.dart';
 
 class CategoriesListView extends StatefulWidget {
   final List<ProductCategoryOrBrandModel> categoryItems;
