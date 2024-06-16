@@ -149,6 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   if (state is AuthCodeSentState)
                     CustomTextField(
                       controller: _otpController,
+                      keyboardType: TextInputType.phone,
                       labelText: 'OTP',
                       hintText: 'Enter OTP',
                       prefixIcon: Icons.message,
