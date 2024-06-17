@@ -44,11 +44,14 @@ class ProductGridViewItem extends StatelessWidget {
                   //   product.imageUrl,
                   //   // fit: BoxFit.contain,
                   // ),
-                  child: FancyShimmerImage(
-                    imageUrl: product.imageUrl ??
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
-                    errorWidget: Image.network(
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'),
+                  child: Hero(
+                    tag: product.id,
+                    child: FancyShimmerImage(
+                      imageUrl: product.imageUrl ??
+                          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
+                      errorWidget: Image.network(
+                          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'),
+                    ),
                   )),
               const SizedBox(height: 4),
               Text(

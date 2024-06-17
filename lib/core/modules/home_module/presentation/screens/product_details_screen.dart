@@ -118,22 +118,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   children: [
                     GestureDetector(
                       onTap: () => _validateAndDisplayImage(context),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Image.network(
-                          widget.product.imageUrl ??
-                              'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
-                          fit: BoxFit.contain,
-                          width: double.infinity,
-                          height: MediaQuery.sizeOf(context).height * .25,
-                          errorBuilder: (context, error, stackTrace) {
-                            // return const Text('Invalid URL format');
-                            return Center(
-                              child: Image.network(
-                                  height: 200,
-                                  'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'),
-                            );
-                          },
+                      child: Hero(
+                        tag:widget.product.id,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Image.network(
+                            widget.product.imageUrl ??
+                                'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png',
+                            fit: BoxFit.contain,
+                            width: double.infinity,
+                            height: MediaQuery.sizeOf(context).height * .25,
+                            errorBuilder: (context, error, stackTrace) {
+                              // return const Text('Invalid URL format');
+                              return Center(
+                                child: Image.network(
+                                    height: 200,
+                                    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -151,7 +154,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Text(
                       'Price: ${widget.product.price}',
                       style: const TextStyle(
-                        color: Colors.green,
+                        color: AppStyles.kPrimaryColor ,
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
