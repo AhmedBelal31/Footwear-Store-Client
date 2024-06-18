@@ -15,3 +15,11 @@ class AuthErrorState extends AuthStates {
   final String message;
   AuthErrorState(this.message);
 }
+
+class CreateAccountLoadingState extends AuthStates {}
+
+class CreateAccountSuccessfullyState extends AuthStates {}
+class CreateAccountFailureState extends AuthStates {
+ final String errorMessage;
+  CreateAccountFailureState(this.errorMessage);
+}
