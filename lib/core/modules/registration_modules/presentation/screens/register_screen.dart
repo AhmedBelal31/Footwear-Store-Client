@@ -577,6 +577,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:footwear_store_client/core/modules/home_module/presentation/screens/home_screen.dart';
 import 'package:footwear_store_client/core/modules/registration_modules/presentation/controller/auth_cubit.dart';
 import 'package:footwear_store_client/core/modules/registration_modules/presentation/screens/login_screen.dart';
+import 'package:footwear_store_client/core/utils/widgets/awesome_snack_bar.dart';
 import '../../../../utils/styles.dart';
 import '../../../../utils/widgets/custom_text_field.dart';
 import '../functions/validate_egypt_phone_number.dart';
@@ -627,20 +628,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             );
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Account Created Successfully'),
-                backgroundColor: Colors.green,
-              ),
-            );
+            final successSnackBar = customSuccessSnackBar(successMessage: 'Account Created Successfully');
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(successSnackBar);
+
           }
           if (state is SaveAccountInformationFailureState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage),
-                backgroundColor: Colors.red,
-              ),
-            );
+
+
+            final failureSnackBar = customFailureSnackBar(
+                errorMessage: state.errorMessage);
+
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(failureSnackBar);
           }
           if (state is CreateAccountFailureState) {
             ScaffoldMessenger.of(context).showSnackBar(
