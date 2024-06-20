@@ -68,3 +68,13 @@ class UpdatePasswordFailureState extends AuthStates {
 
   UpdatePasswordFailureState(this.errorMessage);
 }
+
+///Send Email Verification
+
+
+class SendEmailVerificationLoadingState extends AuthStates {}
+
+
+class SendEmailVerificationSuccessfullyState extends AuthStates {}
+
+

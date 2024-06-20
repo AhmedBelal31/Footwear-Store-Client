@@ -8,11 +8,11 @@ import 'dart:io';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthStates> {
-  final FirebaseAuth _firebaseAuth;
+
   String? _verificationId;
 
-  AuthCubit(this._firebaseAuth) : super(AuthInitialState());
-
+  AuthCubit() : super(AuthInitialState());
+  final FirebaseAuth _firebaseAuth =FirebaseAuth.instance ;
   ///Change Password Icon
   IconData loginPasswordIcon = Icons.visibility;
   bool isLoginPasswordShown = true;
@@ -281,6 +281,24 @@ class AuthCubit extends Cubit<AuthStates> {
       emit(UpdatePasswordSuccessfullyState());
     }).catchError((error) {
       emit(AuthErrorState("Failed to update password: ${error.toString()}"));
+    });
+  }
+
+
+  bool isEmailVerified()
+  {
+
+    return _firebaseAuth.currentUser!.emailVerified;
+  }
+  bool isEmailSent = false ;
+  void sendEmailVerification()
+  {
+    emit(SendEmailVerificationLoadingState());
+    _firebaseAuth.currentUser!.sendEmailVerification().then((value) {
+      emit(SendEmailVerificationSuccessfullyState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(AuthErrorState("Failed to send email verification: ${error.toString()}"));
     });
   }
 }
