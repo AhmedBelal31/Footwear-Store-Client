@@ -8,16 +8,29 @@ class AuthInitialState extends AuthStates {}
 class ChangeLoginPasswordIconState extends AuthStates {}
 class ChangeRegisterPasswordIconState extends AuthStates {}
 
-class AuthLoadingState extends AuthStates {}
 
-class AuthCodeSentState extends AuthStates {}
 
-class AuthLoggedInState extends AuthStates {}
-
-class AuthErrorState extends AuthStates {
+/// Register With PhoneNumber States
+class RegisterWithPhoneNumberLoadingState extends AuthStates {}
+class RegisterWithPhoneNumberFailureState extends AuthStates {
   final String message;
 
-  AuthErrorState(this.message);
+  RegisterWithPhoneNumberFailureState(this.message);
+}
+
+///Verification Completed State
+class VerificationCompletedSuccessState extends AuthStates {}
+
+///CodeSent
+class CodeSentSuccessState extends AuthStates {}
+
+///Verify OTP States
+class VerifyOtpLoadingState extends AuthStates {}
+class VerifyOtpSuccessState extends AuthStates {}
+class VerifyOtpFailureState extends AuthStates {
+  final String message;
+
+  VerifyOtpFailureState(this.message);
 }
 
 class CreateAccountLoadingState extends AuthStates {}
@@ -30,7 +43,7 @@ class CreateAccountFailureState extends AuthStates {
   CreateAccountFailureState(this.errorMessage);
 }
 
-//Save User Information
+///Save User Information
 
 class SaveAccountInformationLoadingState extends AuthStates {}
 
@@ -76,5 +89,11 @@ class SendEmailVerificationLoadingState extends AuthStates {}
 
 
 class SendEmailVerificationSuccessfullyState extends AuthStates {}
+
+
+class FoundRelatedEmailForPhoneState extends AuthStates {
+  final String email;
+  FoundRelatedEmailForPhoneState(this.email);
+}
 
 
