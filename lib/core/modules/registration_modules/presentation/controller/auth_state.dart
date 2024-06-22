@@ -7,6 +7,7 @@ class AuthInitialState extends AuthStates {}
 
 class ChangeLoginPasswordIconState extends AuthStates {}
 class ChangeRegisterPasswordIconState extends AuthStates {}
+class ChangeResetPasswordIconState extends AuthStates {}
 
 
 
@@ -55,6 +56,11 @@ class SaveAccountInformationFailureState extends AuthStates {
   SaveAccountInformationFailureState(this.errorMessage);
 }
 class AuthLoggedOutState extends AuthStates {}
+class AuthLoggedOutFailureState extends AuthStates {
+  final String errorMessage;
+
+  AuthLoggedOutFailureState(this.errorMessage);
+}
 
 
 ///Login To Account
@@ -94,6 +100,30 @@ class SendEmailVerificationSuccessfullyState extends AuthStates {}
 class FoundRelatedEmailForPhoneState extends AuthStates {
   final String email;
   FoundRelatedEmailForPhoneState(this.email);
+}
+
+
+///Validate Phone Number
+
+class ValidatePhoneNumberLoadingState extends AuthStates {}
+class PhoneNumberExistState extends AuthStates {}
+class PhoneNumberNotExistState extends AuthStates {}
+class ValidatePhoneNumberFailureState extends AuthStates {
+  final String message;
+
+  ValidatePhoneNumberFailureState(this.message);
+}
+
+
+///Reset Password via Email
+
+
+class ResetPasswordViaEmailLoadingState extends AuthStates {}
+class ResetPasswordViaEmailSuccessState extends AuthStates {}
+class ResetPasswordViaEmailFailureState extends AuthStates {
+  final String message;
+
+  ResetPasswordViaEmailFailureState(this.message);
 }
 
 
