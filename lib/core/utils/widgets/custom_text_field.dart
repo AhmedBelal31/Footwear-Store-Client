@@ -13,12 +13,14 @@ class CustomTextField extends StatelessWidget {
   final AutovalidateMode? autovalidateMode;
   final TextInputType? keyboardType;
   final IconData? prefixIcon;
+  final IconButton? suffixIcon;
 
   const CustomTextField({
     super.key,
     required this.hintText,
     this.labelText,
     this.prefixIcon,
+    this.suffixIcon,
     this.maxLines = 1,
     this.controller,
     this.onFieldSubmitted,
@@ -32,7 +34,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(7.0),
+      padding: const EdgeInsets.symmetric(vertical: 7),
       child: TextFormField(
         controller: controller,
         onFieldSubmitted: onFieldSubmitted,
@@ -42,12 +44,14 @@ class CustomTextField extends StatelessWidget {
         obscureText: obscureText,
         keyboardType: keyboardType,
         maxLines: maxLines,
+
         decoration: InputDecoration(
           hintText: hintText,
           labelText: labelText,
-          prefixIcon: Icon(prefixIcon),
-          // contentPadding:
-          //     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          prefixIcon: Icon(prefixIcon ),
+          suffixIcon: suffixIcon,
+           contentPadding:
+               const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),

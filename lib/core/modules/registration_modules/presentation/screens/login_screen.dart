@@ -131,10 +131,12 @@
 //   }
 // }
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:footwear_store_client/core/modules/registration_modules/presentation/controller/auth_cubit.dart';
+import 'package:footwear_store_client/core/modules/registration_modules/presentation/screens/reset_password_screen.dart';
 import 'package:footwear_store_client/core/utils/styles.dart';
 import '../../../../utils/widgets/awesome_snack_bar.dart';
 import '../../../../utils/widgets/custom_text_field.dart';
@@ -173,16 +175,32 @@ class _LoginScreenState extends State<LoginScreen> {
       body: BlocConsumer<AuthCubit, AuthStates>(
         listener: (context, state) {
           if (state is LoginSuccessfullyState) {
-            Navigator.of(context).pushReplacementNamed(HomeScreen.screenRoute);
-            _emailController.clear();
-            _passwordController.clear();
-            final successSnackBar = customSuccessSnackBar(
-              successMessage: 'Login successful! Welcome back!',
-            );
+            if (BlocProvider.of<AuthCubit>(context).isEmailVerified()) {
+              Navigator.of(context)
+                  .pushReplacementNamed(HomeScreen.screenRoute);
+              _emailController.clear();
+              _passwordController.clear();
+              final successSnackBar = customSuccessSnackBar(
+                successMessage: 'Login successful! Welcome back!',
+              );
 
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(successSnackBar);
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(successSnackBar);
+            }
+            if (!BlocProvider.of<AuthCubit>(context).isEmailVerified())  {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.warning,
+                animType: AnimType.rightSlide,
+                title: 'Email Verification Required',
+                desc:
+                    'Please check your email to verify your account. Click on the verification link sent to your inbox.',
+                 // btnCancelOnPress: () {},
+                btnOkColor: AppStyles.kPrimaryColor,
+              btnOkOnPress: () {},
+              )..show();
+            }
           } else if (state is LoginFailureState) {
             final failureSnackBar =
                 customFailureSnackBar(errorMessage: state.errorMessage);
@@ -237,9 +255,28 @@ class _LoginScreenState extends State<LoginScreen> {
                         icon: Icon(context.read<AuthCubit>().loginPasswordIcon),
                       ),
                       keyboardType: TextInputType.visiblePassword,
-                      validator: validatePassword,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
                     ),
-                    const SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          // Navigator.of(context).pushNamed(ResetPasswordScreen.screenRoute);
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) => ForgotPasswordOptions(
+                              email: _emailController.text,
+                            ),
+                          );
+                        },
+                        child: Text('Forgot Password ?'),
+                      ),
+                    ),
                     if (state is LoginLoadingState)
                       Center(
                           child: CircularProgressIndicator(
@@ -296,5 +333,121 @@ class _LoginScreenState extends State<LoginScreen> {
         autovalidateMode = AutovalidateMode.always;
       });
     }
+  }
+}
+
+class ForgotPasswordOptions extends StatelessWidget {
+  final String email;
+
+  const ForgotPasswordOptions({super.key, required this.email});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AuthCubit, AuthStates>(
+      listener: (context, state) {
+
+        if (state is ResetPasswordViaEmailSuccessState) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              content: Text('Check your email to set a new password.'),
+            ),
+          );
+        }
+
+        if (state is ResetPasswordViaEmailFailureState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Text('Failed to reset password. '),
+            ),
+          );
+        }
+      },
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              if(state is ResetPasswordViaEmailLoadingState)
+                Center(child: CircularProgressIndicator(color: AppStyles.kPrimaryColor,)),
+              if(state is! ResetPasswordViaEmailLoadingState)
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 6,
+                          blurRadius: 10,
+                          offset: const Offset(0, 1),
+                        )
+                      ]),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.email,
+                      color: AppStyles.kPrimaryColor,
+                    ),
+                    title: Text('Reset via Email'),
+                    onTap: () {
+                      // Navigator.pop(context);
+                      RegExp emailRegex =
+                      RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+                      if (email.isEmpty ||
+                          !emailRegex.hasMatch(email)) {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text('Please enter a valid email address'),
+                        ));
+                      } else {
+                        context.read<AuthCubit>().sendPasswordResetEmail(email);
+                      }
+                    },
+                  ),
+                ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //       color: Colors.white,
+              //       borderRadius: BorderRadius.circular(12.0),
+              //       boxShadow: [
+              //         BoxShadow(
+              //           color: Colors.black.withOpacity(0.1),
+              //           spreadRadius: 6,
+              //           blurRadius: 10,
+              //           offset: const Offset(0, 1),
+              //         )
+              //       ]),
+              //   child: ListTile(
+              //     leading: Icon(
+              //       Icons.phone,
+              //       color: AppStyles.kPrimaryColor,
+              //     ),
+              //     title: Text('Reset via Phone'),
+              //     onTap: () {
+              //       Navigator.pop(context);
+              //       Navigator.of(context)
+              //           .pushNamed(ResetPasswordScreen.screenRoute);
+              //     },
+              //   ),
+              // ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

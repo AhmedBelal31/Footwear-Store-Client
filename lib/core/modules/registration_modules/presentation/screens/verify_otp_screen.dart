@@ -1,27 +1,16 @@
-// import 'package:flutter/material.dart';
-//
-// class VerifyOtpScreen extends StatelessWidget {
-//
-//   const VerifyOtpScreen({super.key});
-//   static const screenRoute = 'verifyOtpScreen';
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Verify OTP'),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:footwear_store_client/core/modules/home_module/presentation/screens/home_screen.dart';
 import 'package:footwear_store_client/core/modules/registration_modules/presentation/controller/auth_cubit.dart';
+import 'package:footwear_store_client/core/modules/registration_modules/presentation/screens/update_password_screen.dart';
 import 'package:footwear_store_client/core/utils/styles.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+
+import '../../../../../test_otp.dart';
+import '../../../../utils/widgets/awesome_snack_bar.dart';
+import 'login_screen.dart';
+import 'reset_password_screen.dart';
 
 class VerifyOtpScreen extends StatelessWidget {
   VerifyOtpScreen();
@@ -29,88 +18,97 @@ class VerifyOtpScreen extends StatelessWidget {
   static const screenRoute = 'verifyOtpScreen';
   late String otpCode;
 
-  void _login(BuildContext context) {
-    // BlocProvider.of<AuthCubit>(context).submitOTP(otpCode);
-  }
-
   @override
   Widget build(BuildContext context) {
-    var phoneNumber = ModalRoute.of(context)!.settings.arguments as String;
-    return BlocProvider(
-      create: (context) => AuthCubit(),
-      child: BlocConsumer<AuthCubit, AuthStates>(
-        listener: (context, state) {
-          // if (state is Loading) {
-          //   showProgressIndicator(context);
-          // }
-          //
-          // if (state is PhoneOTPVerified) {
-          //   Navigator.pop(context);
-          //   NavigateAndRep(context,changepassword());
-          // }
-          //
-          // if (state is ErrorOccurred) {
-          //   //Navigator.pop(context);
-          //   String errorMsg = (state).errorMsg;
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     SnackBar(
-          //       content: Text(errorMsg),
-          //       backgroundColor: Colors.black,
-          //       duration: Duration(seconds: 3),
-          //     ),
-          //   );
-          // }
-        },
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Lottie.asset(
-                        'assets/images/otp.json',
-                        height: 180,
-                      ),
+   var phoneNumber = ModalRoute.of(context)!.settings.arguments as String;
+    return BlocConsumer<AuthCubit, AuthStates>(
+      listener: (context, state) {
+        if (state is VerifyOtpSuccessState) {
+          Navigator.of(context).pushReplacementNamed(LoginScreen.screenRoute);
+
+
+          final successSnackBar = customSuccessSnackBar(successMessage: 'Account Created Successfully');
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(successSnackBar);
+
+          final sendEmailSnackBar = customSuccessSnackBar(successMessage: 'Check Your Email Address');
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(sendEmailSnackBar);
+        }
+
+        if (state is VerifyOtpFailureState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.black,
+              duration: Duration(seconds: 3),
+            ),
+          );
+          Navigator.of(context).pushNamed(ResetPasswordScreen.screenRoute);
+        }
+
+
+
+      },
+      builder: (context, state) {
+        var cubit = BlocProvider.of<AuthCubit>(context);
+        return Scaffold(
+          appBar: AppBar(),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Lottie.asset(
+                      'assets/images/otp.json',
+                      height: 180,
                     ),
-                    SizedBox(
-                      height: 20,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Verify Your Phone Number ",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                     ),
-                    Text(
-                      "Verify Your Phone Number ",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                          text:
-                              "Enter your 6 digit code numbers sent to you at ",
-                          style: TextStyle(fontSize: 16, color: Colors.black , height: 1.5),
-                          children: [
-                            TextSpan(
-                              text: "$phoneNumber",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: AppStyles.kPrimaryColor,
-                              ),
-                            )
-                          ]),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    _buildPinCodeFields(context),
-                    SizedBox(
-                      height: 20,
-                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                        text: "Enter your 6 digit code numbers sent to you at ",
+                        style: TextStyle(
+                            fontSize: 16, color: Colors.black, height: 1.5),
+                        children: [
+                          TextSpan(
+                            text: "+2$phoneNumber",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: AppStyles.kPrimaryColor,
+                            ),
+                          )
+                        ]),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  _buildPinCodeFields(context),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  if (state is VerifyOtpLoadingState)
+                    Center(
+                        child: CircularProgressIndicator(
+                      color: AppStyles.kPrimaryColor,
+                    )),
+                  if (state is! VerifyOtpLoadingState)
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -122,19 +120,21 @@ class VerifyOtpScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // showProgressIndicator(context);
-                          // _login(context);
+                          cubit.verifyOtp(
+                              otp: otpCode, phoneNumber: phoneNumber);
                         },
-                        child: Text("VERIFY" ,style: TextStyle(fontWeight: FontWeight.bold),),
+                        child: Text(
+                          "VERIFY",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                     )
-                  ],
-                ),
+                ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -166,11 +166,8 @@ class VerifyOtpScreen extends StatelessWidget {
         enableActiveFill: true,
         onCompleted: (code) {
           otpCode = code;
-          print("Completed");
         },
-        onChanged: (value) {
-          print(value);
-        },
+        onChanged: (value) {},
       ),
     );
   }

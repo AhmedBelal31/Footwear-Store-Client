@@ -571,12 +571,14 @@
 // }
 
 //For Testing
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:footwear_store_client/core/modules/home_module/presentation/screens/home_screen.dart';
 import 'package:footwear_store_client/core/modules/registration_modules/presentation/controller/auth_cubit.dart';
 import 'package:footwear_store_client/core/modules/registration_modules/presentation/screens/login_screen.dart';
+import 'package:footwear_store_client/core/modules/registration_modules/presentation/screens/reset_password_screen.dart';
 import 'package:footwear_store_client/core/utils/widgets/awesome_snack_bar.dart';
 import '../../../../utils/styles.dart';
 import '../../../../utils/widgets/custom_text_field.dart';
@@ -584,6 +586,7 @@ import '../functions/validate_egypt_phone_number.dart';
 import '../functions/validate_email.dart';
 import '../functions/validate_otp.dart';
 import '../functions/validate_password.dart';
+import 'verify_otp_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -620,25 +623,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       body: BlocConsumer<AuthCubit, AuthStates>(
         listener: (context, state) {
-          if (state is SaveAccountInformationSuccessfullyState) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+          if (state is CreateAccountSuccessfullyState) {
+            context.read<AuthCubit>().sendEmailVerification();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Account created successfully'),
+                backgroundColor: Colors.green,
               ),
             );
-
-            final successSnackBar = customSuccessSnackBar(successMessage: 'Account Created Successfully');
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(successSnackBar);
-
+            context
+                .read<AuthCubit>()
+                .registerWithPhoneNumber(_phoneController.text);
           }
+          if (state is PhoneNumberExistState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content:
+                    Text('Phone number is already in use by another account.'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+
           if (state is SaveAccountInformationFailureState) {
-
-
-            final failureSnackBar = customFailureSnackBar(
-                errorMessage: state.errorMessage);
+            final failureSnackBar =
+                customFailureSnackBar(errorMessage: state.errorMessage);
 
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
@@ -652,6 +661,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             );
             print(state.errorMessage);
+          }
+          if (state is CodeSentSuccessState) {
+            Navigator.pushNamed(
+              context,
+              VerifyOtpScreen.screenRoute,
+              arguments: _phoneController.text,
+            );
+          }
+          if (state is ResetPasswordViaEmailFailureState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+
+          if (state is RegisterWithPhoneNumberFailureState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+            Navigator.pushReplacementNamed(
+              context,
+              LoginScreen.screenRoute,
+            );
+
           }
         },
         builder: (context, state) {
@@ -703,6 +741,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         hintText: 'Enter Your Phone Number ',
                         prefixIcon: Icons.phone_android,
                         autovalidateMode: autovalidateMode,
+                        // validator: validateEgyptPhoneNumber,
                         validator: validateEgyptPhoneNumber,
                       ),
                       CustomTextField(
@@ -711,26 +750,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _passwordController,
                         prefixIcon: Icons.lock,
                         autovalidateMode: autovalidateMode,
-                        obscureText: context.read<AuthCubit>().isRegisterPasswordShown,
+                        obscureText:
+                            context.read<AuthCubit>().isRegisterPasswordShown,
                         suffixIcon: IconButton(
                           onPressed: () {
-                            context.read<AuthCubit>().changeRegisterPasswordIcon();
+                            context
+                                .read<AuthCubit>()
+                                .changeRegisterPasswordIcon();
                           },
-                          icon: Icon(context.read<AuthCubit>().registerPasswordIcon),
+                          icon: Icon(
+                              context.read<AuthCubit>().registerPasswordIcon),
                         ),
                         keyboardType: TextInputType.visiblePassword,
                         validator: validatePassword,
                       ),
                       const SizedBox(height: 20),
-                      if (state is CreateAccountLoadingState ||
-                          state is SaveAccountInformationLoadingState)
+                      if (state is RegisterWithPhoneNumberLoadingState ||
+                          state is CreateAccountLoadingState ||
+                          state is SendEmailVerificationLoadingState ||
+                          state is SaveAccountInformationLoadingState ||
+                          state is SendEmailVerificationSuccessfullyState
+
+                      )
                         const Center(
                           child: CircularProgressIndicator(
                             color: AppStyles.kPrimaryColor,
                           ),
                         ),
-                      if (state is! CreateAccountLoadingState &&
-                          state is! SaveAccountInformationLoadingState)
+                      if (state is! RegisterWithPhoneNumberLoadingState &&
+                          state is! SaveAccountInformationLoadingState &&
+                          state is! CreateAccountLoadingState  &&
+                           state is! SendEmailVerificationLoadingState
+                      )
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -748,6 +799,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: Text('Register'),
                           ),
                         ),
+                      SizedBox(height:20),
                       TextButton(
                         onPressed: () {
                           Navigator.of(context)
@@ -774,7 +826,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             name: _nameController.text,
             phoneNumber: _phoneController.text,
           );
-      // _formKey.currentState?.save();
     } else {
       setState(() {
         autovalidateMode = AutovalidateMode.always;
