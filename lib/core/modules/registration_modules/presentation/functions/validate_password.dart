@@ -14,11 +14,11 @@ String? validatePassword(String? value) {
   value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
 
   if (!hasUppercase) {
-    return 'Password must contain at least one uppercase letter';
+    return 'Password must contain uppercase letter';
   }
 
   if (!hasLowercase) {
-    return 'Password must contain at least one lowercase letter';
+    return 'Password must contain lowercase letter';
   }
 
   if (!hasDigit) {
@@ -26,7 +26,7 @@ String? validatePassword(String? value) {
   }
 
   if (!hasSpecialCharacter) {
-    return 'Password must contain at least one special character';
+    return 'Password must contain special character';
   }
 
   return null;

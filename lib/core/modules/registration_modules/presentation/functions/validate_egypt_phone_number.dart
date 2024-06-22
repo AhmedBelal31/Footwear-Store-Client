@@ -13,6 +13,5 @@ String? validateEgyptPhoneNumber(String? value) {
   if (!regex.hasMatch(value)) {
     return 'Enter a valid Egyptian phone number';
   }
-
   return null;
 }
