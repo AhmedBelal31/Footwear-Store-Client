@@ -421,6 +421,15 @@ class AuthCubit extends Cubit<AuthStates> {
     emit(ChangeResetPasswordIconState());
   }
 
+
+
+
+
+
+
+
+
+
   // ///Verify Phone Number
   Future<void> registerWithPhoneNumber(String phoneNumber) async {
     emit(RegisterWithPhoneNumberLoadingState());
@@ -480,23 +489,37 @@ class AuthCubit extends Cubit<AuthStates> {
 
   Future<void> sendPasswordResetEmail(String email) async {
     emit(ResetPasswordViaEmailLoadingState());
-    try {
-      await _firebaseAuth.sendPasswordResetEmail(email: email);
-      emit(ResetPasswordViaEmailSuccessState());
-    } on FirebaseException catch (error) {
-      emit(ResetPasswordViaEmailFailureState(
-          "Failed to send password reset email: ${error.message}"));
-    } catch (e) {
-      print(e.toString());
-      emit(ResetPasswordViaEmailFailureState(
-          "Failed to send password reset email: ${e.toString()}"));
+
+    for(int i = 0; i < allUsers.length ; i++) {
+      print(allUsers[i].email);
+      if(allUsers[i].email == email )
+      {
+        try {
+          await _firebaseAuth.sendPasswordResetEmail(email: email);
+          emit(ResetPasswordViaEmailSuccessState());
+        } on FirebaseException catch (error) {
+          emit(ResetPasswordViaEmailFailureState(
+              "Failed to send password reset email: ${error.message}"));
+        } catch (e) {
+          print(e.toString());
+          emit(ResetPasswordViaEmailFailureState(
+              "Failed to send password reset email: ${e.toString()}"));
+        }
+      }
+      else
+      {
+        emit(UserNotFoundState());
+      }
+
     }
+
   }
 
   ///Reset Password
 
   void updatePassword(String newPassword) async {
     emit(UpdatePasswordLoadingState());
+
     await _firebaseAuth.currentUser!.updatePassword(newPassword).then((value) {
       print(_firebaseAuth.currentUser!.email);
       print(_firebaseAuth.currentUser!.phoneNumber);
@@ -587,6 +610,23 @@ class AuthCubit extends Cubit<AuthStates> {
       emit(SaveAccountInformationSuccessfullyState());
     }).catchError((error) {
       emit(SaveAccountInformationFailureState(error.toString()));
+    });
+  }
+
+  List<UserModel> allUsers = [];
+  void fetchAllUsers() {
+    emit(FetchAllUsersLoadingState());
+    FirebaseFirestore.instance
+        .collection('users')
+        .get()
+        .then((values) {
+      allUsers.clear();
+      for (var element in values.docs) {
+        allUsers.add(UserModel.fromJson(element.data()));
+      }
+      emit(FetchAllUsersSuccessState());
+    }).catchError((error) {
+      emit(FetchAllUsersFailureState(error.toString()));
     });
   }
 
@@ -684,4 +724,5 @@ class AuthCubit extends Cubit<AuthStates> {
           "Failed to send email verification: ${error.toString()}"));
     });
   }
+
 }

@@ -6,13 +6,14 @@ abstract class AuthStates {}
 class AuthInitialState extends AuthStates {}
 
 class ChangeLoginPasswordIconState extends AuthStates {}
+
 class ChangeRegisterPasswordIconState extends AuthStates {}
+
 class ChangeResetPasswordIconState extends AuthStates {}
-
-
 
 /// Register With PhoneNumber States
 class RegisterWithPhoneNumberLoadingState extends AuthStates {}
+
 class RegisterWithPhoneNumberFailureState extends AuthStates {
   final String message;
 
@@ -27,7 +28,9 @@ class CodeSentSuccessState extends AuthStates {}
 
 ///Verify OTP States
 class VerifyOtpLoadingState extends AuthStates {}
+
 class VerifyOtpSuccessState extends AuthStates {}
+
 class VerifyOtpFailureState extends AuthStates {
   final String message;
 
@@ -55,13 +58,14 @@ class SaveAccountInformationFailureState extends AuthStates {
 
   SaveAccountInformationFailureState(this.errorMessage);
 }
+
 class AuthLoggedOutState extends AuthStates {}
+
 class AuthLoggedOutFailureState extends AuthStates {
   final String errorMessage;
 
   AuthLoggedOutFailureState(this.errorMessage);
 }
-
 
 ///Login To Account
 
@@ -74,7 +78,6 @@ class LoginFailureState extends AuthStates {
 
   LoginFailureState(this.errorMessage);
 }
-
 
 ///Update User Password
 
@@ -90,40 +93,52 @@ class UpdatePasswordFailureState extends AuthStates {
 
 ///Send Email Verification
 
-
 class SendEmailVerificationLoadingState extends AuthStates {}
-
 
 class SendEmailVerificationSuccessfullyState extends AuthStates {}
 
+class UserNotFoundState extends AuthStates {}
 
 class FoundRelatedEmailForPhoneState extends AuthStates {
   final String email;
+
   FoundRelatedEmailForPhoneState(this.email);
 }
-
 
 ///Validate Phone Number
 
 class ValidatePhoneNumberLoadingState extends AuthStates {}
+
 class PhoneNumberExistState extends AuthStates {}
+
 class PhoneNumberNotExistState extends AuthStates {}
+
 class ValidatePhoneNumberFailureState extends AuthStates {
   final String message;
 
   ValidatePhoneNumberFailureState(this.message);
 }
 
-
 ///Reset Password via Email
 
-
 class ResetPasswordViaEmailLoadingState extends AuthStates {}
+
 class ResetPasswordViaEmailSuccessState extends AuthStates {}
+
 class ResetPasswordViaEmailFailureState extends AuthStates {
   final String message;
 
   ResetPasswordViaEmailFailureState(this.message);
 }
 
+///Fetch All Users Data
 
+class FetchAllUsersLoadingState extends AuthStates {}
+
+class FetchAllUsersSuccessState extends AuthStates {}
+
+class FetchAllUsersFailureState extends AuthStates {
+  final String message;
+
+  FetchAllUsersFailureState(this.message);
+}
