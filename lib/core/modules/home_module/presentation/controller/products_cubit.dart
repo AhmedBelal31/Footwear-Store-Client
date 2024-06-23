@@ -84,11 +84,14 @@ class ProductsCubit extends Cubit<ProductsStates> {
       products.clear();
       // filteredProducts.clear();
       for (var element in values.docs) {
+        print(element.data());
+
         products.add(ProductModel.fromJson(element.data()));
         // filteredProducts.add(ProductModel.fromJson(element.data()));
       }
       emit(GetProductSuccessState());
     }).catchError((error) {
+      print(error.message);
       emit(GetProductFailureState(error: error.toString()));
     });
   }
@@ -99,11 +102,14 @@ class ProductsCubit extends Cubit<ProductsStates> {
         .collection(kProductsCategoryCollection)
         .get()
         .then((values) {
-      productsCategories.clear();
+
+          productsCategories.clear();
+
       for (var element in values.docs) {
-        productsCategories
-            .add(ProductCategoryOrBrandModel.fromJson(element.data()));
+        productsCategories.add(ProductCategoryOrBrandModel.fromJson(element.data()));
+        print(element.data());
       }
+      print('productsCategories $productsCategories');
       emit(GetProductsCategoriesSuccessState());
     }).catchError((error) {
       emit(GetProductsCategoriesFailureState(error: error.toString()));

@@ -94,6 +94,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:footwear_store_client/core/modules/registration_modules/presentation/screens/login_screen.dart';
 import 'package:footwear_store_client/core/utils/styles.dart';
+import '../../../../utils/shared_pref.dart';
 import '../../../../utils/widgets/awesome_snack_bar.dart';
 import '../../../registration_modules/presentation/controller/auth_cubit.dart';
 import '../controller/products_cubit.dart';
@@ -113,11 +114,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<ProductsCubit>(context).fetchAllProductsBrands();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   BlocProvider.of<ProductsCubit>(context).fetchAllProductsBrands();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -135,45 +136,48 @@ class _HomeScreenState extends State<HomeScreen> {
               ..showSnackBar(successSnackBar);
 
             Navigator.pushReplacementNamed(context, LoginScreen.screenRoute);
-
           }
           else if (state is RegisterWithPhoneNumberFailureState) {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(state.message)));
           }
-
         },
         builder: (context, state) {
-          return BlocConsumer<AuthCubit, AuthStates>(
-            listener: (context, state) {},
-            builder: (context, state) {
-              var cubit = BlocProvider.of<ProductsCubit>(context);
-              return Column(
-                children: [
-                  const SizedBox(height: 20),
-                  CategoriesListView(categoryItems: cubit.productsCategories),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomDropDownBtn(
-                          selectedItemText: cubit.selectedSort ?? 'Sort Items',
-                          onValueChanged: (value) {
-                            cubit.changeSortOrder(value);
-                          },
+          return BlocProvider(
+            create: (context) => ProductsCubit()..fetchAllProductsCategories()..fetchAllProducts()..fetchAllProductsBrands(),
+            child: BlocConsumer<AuthCubit, AuthStates>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                var cubit = BlocProvider.of<ProductsCubit>(context);
+                return Column(
+                  children: [
+                    const SizedBox(height: 20),
+                      CategoriesListView(
+                          categoryItems: cubit.productsCategories),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomDropDownBtn(
+                            selectedItemText: cubit.selectedSort ??
+                                'Sort Items',
+                            onValueChanged: (value) {
+                              cubit.changeSortOrder(value);
+                            },
+                          ),
                         ),
-                      ),
-                      const Expanded(
-                        child: MultiSelectDropDownBtn(),
-                      ),
-                    ],
-                  ),
-                  const Expanded(
-                    child: ProductsGridView(),
-                  ),
-                ],
-              );
-            },
+                        const Expanded(
+                          child: MultiSelectDropDownBtn(),
+                        ),
+                      ],
+                    ),
+                    const Expanded(
+                      child: ProductsGridView(),
+                    ),
+                  ],
+                );
+              },
+            ),
           );
         },
       ),
@@ -192,6 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
       actions: [
         IconButton(
           onPressed: () {
+            Prefs.setData(key: 'login', value: false);
             context.read<AuthCubit>().signOut();
           },
           icon: const Icon(Icons.logout),

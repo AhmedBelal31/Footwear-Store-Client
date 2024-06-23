@@ -3,7 +3,7 @@ class OrderProductModel {
   final String customer;
   final String productName;
   final String phone;
-  final String price;
+  final num price;
   final String transactionId;
   final String dateTime;
   final String productCategory;
@@ -71,7 +71,7 @@ class OrderProductModel {
     String? customer,
     String? productName,
     String? phone,
-    String? price,
+    num? price,
     String? transactionId,
     String? dateTime,
     String? productCategory,

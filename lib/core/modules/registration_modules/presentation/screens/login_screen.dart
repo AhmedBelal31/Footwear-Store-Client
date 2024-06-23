@@ -137,6 +137,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:footwear_store_client/core/modules/registration_modules/presentation/controller/auth_cubit.dart';
 import 'package:footwear_store_client/core/modules/registration_modules/presentation/screens/reset_password_screen.dart';
+import 'package:footwear_store_client/core/utils/shared_pref.dart';
 import 'package:footwear_store_client/core/utils/styles.dart';
 import '../../../../utils/widgets/awesome_snack_bar.dart';
 import '../../../../utils/widgets/custom_text_field.dart';
@@ -176,6 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
         listener: (context, state) {
           if (state is LoginSuccessfullyState) {
             if (BlocProvider.of<AuthCubit>(context).isEmailVerified()) {
+              Prefs.setData(key: 'login', value: true);
               Navigator.of(context)
                   .pushReplacementNamed(HomeScreen.screenRoute);
               _emailController.clear();
@@ -345,6 +347,18 @@ class ForgotPasswordOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthStates>(
       listener: (context, state) {
+        if(state is UserNotFoundState)
+          {
+            Navigator.of(context).pop();
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.red,
+                // content: Text('User not found. Please try again.'),
+                content: Text('No User With This Email .'),
+              ),
+            );
+          }
 
         if (state is ResetPasswordViaEmailSuccessState) {
           Navigator.of(context).pop();
@@ -357,6 +371,7 @@ class ForgotPasswordOptions extends StatelessWidget {
         }
 
         if (state is ResetPasswordViaEmailFailureState) {
+          Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Colors.red,
@@ -408,6 +423,7 @@ class ForgotPasswordOptions extends StatelessWidget {
                           content: Text('Please enter a valid email address'),
                         ));
                       } else {
+
                         context.read<AuthCubit>().sendPasswordResetEmail(email);
                       }
                     },

@@ -12,7 +12,7 @@ class ProductModel {
   String? imageUrl;
 
   String name;
-  double price;
+  num price;
 
   bool? offer;
 

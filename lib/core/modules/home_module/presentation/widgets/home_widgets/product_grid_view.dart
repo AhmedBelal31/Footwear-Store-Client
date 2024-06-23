@@ -41,9 +41,10 @@ class ProductsGridView extends StatelessWidget {
             }
             return RefreshIndicator(
               onRefresh: () async {
-                if (cubit.selectedCategory == 'ALL') {
-                  cubit.fetchAllProducts();
-                }
+                // if (cubit.selectedCategory == 'ALL') {
+                //   cubit.fetchAllProducts();
+                // }
+                cubit.fetchAllProducts();
               },
               child: SingleChildScrollView(
                 // physics: const AlwaysScrollableScrollPhysics(),
