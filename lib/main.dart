@@ -22,54 +22,20 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey = stripePublishableKey;
   await Firebase.initializeApp();
- await Prefs.init();
+  await Prefs.init();
   Bloc.observer = MyBlocObserver();
-  // Prefs.getData(key: 'login')  == null ? Prefs.setData(key: 'login', value: false) :null;
   runApp(const FootWearStoreClient());
 }
-
-// ToDo:
-//Cache Products Images
-// Logic For Home Screen => Sort , Filter Brand
-// Add Shimmer Effect For Home Screen
-// Send OTP
-// Add Payment Methods
-//Add On Boarding
-// Add State Of multiDropDownButton To work Without ALT+S
-// Solve Delete Last Item From Admin APP , Floating Action Button Covers Delete Icon
-// Remove Password Constrains On Login Screen
-//Add Constrains To Phone Number At Register Screen
-// Add Login , Register Validation
-// LogOut From App
-// Add Email For Login
-// Navigate To Verify O
-// Reset Password ,  NAVIGATE tO NEW Password Screen if PHONE Number already in use
-/// Add OoBoarding
-
-/// Save Token By Shared Pref , Get Storage , Search For Caching Tokens
-
-/// Record Video For APPS
-/// Firebase Login Rules -> Check IF Admin -> Footwear Admin App
-///                               IF User -> Footwear Client App
 
 class FootWearStoreClient extends StatelessWidget {
   const FootWearStoreClient({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var isUserLogin = Prefs.getData(key: 'login') ;
+    var isUserLogin = Prefs.getData(key: 'login');
     print(Prefs.getData(key: 'login'));
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => AuthCubit()..fetchAllUsers(),
-        ),
-        // BlocProvider(
-        //   create: (context) => ProductsCubit()
-        //     ..fetchAllProducts()
-        //     ..fetchAllProductsCategories(),
-        // ),
-      ],
+    return BlocProvider(
+      create: (context) => AuthCubit()..fetchAllUsers(),
       child: MaterialApp(
         title: 'ShoeHub',
         theme: ThemeData(
@@ -83,7 +49,7 @@ class FootWearStoreClient extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         // home: RegisterScreen(),
-        initialRoute: isUserLogin== false || isUserLogin ==null
+        initialRoute: isUserLogin == false || isUserLogin == null
             ? LoginScreen.screenRoute
             : HomeScreen.screenRoute,
         routes: {
