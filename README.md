@@ -47,6 +47,84 @@ ShoesHub is a comprehensive Flutter application designed for footwear stores. It
  | ![product_details](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/5bc18b2c-2ee0-4c22-9d84-4b752a4bb424)|![save_card](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/f0c27ff2-d4ac-4cb2-9a83-fc0462ac75bc)|![buy_product](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/1b894921-efea-4ea8-9f15-218d6fed30ff)|
 
 
+
+# Admin App Features
+
+# ShoesHub Admin App: Manage Your Footwear Store with Ease
+
+The ShoesHub Admin App is a powerful tool designed for administrators to efficiently manage the footwear store's inventory and orders. Built with Flutter, this app provides real-time updates and an intuitive interface to ensure smooth operations.
+
+## Key Features
+
+- **Order Management:** View all orders placed by clients, including detailed information such as customer details, order status, and transaction IDs.
+- **Product Management:** Add, edit, and remove products from the store inventory, with changes reflected in real-time in the client app.
+- **Real-time Updates:** All modifications made by admins are instantly updated in the client app, ensuring clients always see the latest product information without needing to refresh.
+- **Secure Access:** Admins can securely log in to the app to manage store operations, ensuring only authorized personnel can make changes.
+
+## Screens
+
+1. **Dashboard Screen:**
+   - Overview of store activities.
+   - Recent orders and inventory status.
+
+2. **Order Details Screen:**
+   - Detailed information about each order.
+   - Customer details, order status, and transaction IDs.
+
+3. **Product List Screen:**
+   - List of all products with options to add, edit, or delete products.
+   - Search and filter options for easy navigation.
+
+4. **Product Edit Screen:**
+   - Edit product details or add new products to the inventory.
+   - Fields for product name, category, brand, price, description, and image URL.
+
+
+ |  Home Screen | Edit Product|
+ |---------|---------|
+ | ![admin_home](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/a675c84b-8dbf-431c-bb10-d5599875b50d)|![edit_order](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/c2977dba-a159-416d-8ae6-f8406f735ca4)
+|
+
+
+
+
+ |  Add Product| Upload Product Image|
+ |---------|---------|
+ | ![add_product](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/5830c6a0-46a2-4ed6-9dcd-f037cef1280f)|![upload_image](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/62eb0caa-d7a2-46dd-9372-d7455158e973)
+
+
+
+
+ |  Orders Screen| No Orders|
+ |---------|---------|
+ | ![orders](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/ae39bfc4-1b2b-4d5b-8827-c4a7e173dfb3)|![no_order](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/4e806e73-9141-4e55-b0ac-0ab487e7ef50)|
+
+
+
+
+ |  Shipped Orders Screen|  Order Details|
+ |---------|---------|
+ | ![image3](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/d6c46f3b-f8a0-4c0f-ae40-97585e5b2840)|![order_details](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/9bc8841a-abdf-4a1f-81df-a321a625efa9)|
+
+
+
+
+
+## Usage
+
+### Managing Orders:
+- Navigate to the Orders section from the dashboard.
+- View all orders with detailed information.
+- Update order status as needed.
+
+### Managing Products:
+- Navigate to the Products section from the dashboard.
+- Add new products by filling in the required details.
+- Edit existing products to update their information.
+- Remove products that are no longer available.
+
+
+
 # 🎥 Videos For App .
 
 
