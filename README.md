@@ -10,11 +10,16 @@ ShoesHub is a comprehensive Flutter application designed for footwear stores. It
 - **Stripe Integration:** Clients can purchase products securely using Stripe, ensuring safe and hassle-free transactions.
 - **User Registration:** Users can register an account with their email and phone number.
 - **Password Reset:** Users can reset their password by receiving a reset link in their email via Firebase.
+
 <hr>
 
-[See Videos](#videos-for-app)
 
 
+<hr>
+
+# Click Here  [See Videos](#videos-for-app) 🖱️
+
+<hr>
 <hr>
  # 📱 Screens And Video 🎥
 
@@ -173,7 +178,7 @@ To get started with ShoesHub, follow these steps:
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/AhmedBelal31/shoesHub.git](https://github.com/AhmedBelal31/Footwear-Store-Client)
+   git clone https://github.com/AhmedBelal31/Footwear-Store-Admin
    cd shoesHub
    ```
 
