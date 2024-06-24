@@ -10,9 +10,12 @@ ShoesHub is a comprehensive Flutter application designed for footwear stores. It
 - **Stripe Integration:** Clients can purchase products securely using Stripe, ensuring safe and hassle-free transactions.
 - **User Registration:** Users can register an account with their email and phone number.
 - **Password Reset:** Users can reset their password by receiving a reset link in their email via Firebase.
+<hr>
 
 [See Videos](#videos-for-app)
 
+
+<hr>
 ### Screens And Video
 
 |  App Icon | Splash Screen |
@@ -131,35 +134,59 @@ To get started with ShoesHub, follow these steps:
 
 ## Videos For App
 
-### Register Account
-[![Register Account](https://img.youtube.com/vi/8c3b03d3-20f4-43b4-968f-7690e25d010a/0.jpg)](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/8c3b03d3-20f4-43b4-968f-7690e25d010a)
+# Register Account 
 
-### Login, Verify Account
-[![Login, Verify Account](https://img.youtube.com/vi/6f321ff9-b466-4525-b674-70c6ffeb29cb/0.jpg)](https://github.com/A
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/8c3b03d3-20f4-43b4-968f-7690e25d010a
 
-hmedBelal31/Footwear-Store-Client/assets/131663660/6f321ff9-b466-4525-b674-70c6ffeb29cb)
 
-### Home
-[![Home](https://img.youtube.com/vi/5fa11665-20ee-4b26-b530-5a60f3954c52/0.jpg)](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/5fa11665-20ee-4b26-b530-5a60f3954c52)
+# Login , Verify Account 
 
-### Product Details
-[![Product Details](https://img.youtube.com/vi/1513c60e-b5e4-4f26-b44d-03ecb8570b1f/0.jpg)](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/1513c60e-b5e4-4f26-b44d-03ecb8570b1f)
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/6f321ff9-b466-4525-b674-70c6ffeb29cb
 
-### View All Orders
-[![View All Orders](https://img.youtube.com/vi/13412298-5ab2-4bdc-9919-50b1cb95bc6e/0.jpg)](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/13412298-5ab2-4bdc-9919-50b1cb95bc6e)
 
----
+# Save Login , Shared Preference
 
-## Conclusion
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/c4496828-c18c-4bef-826c-c4aed64c2863
 
-ShoesHub is an ideal solution for any footwear store looking to streamline their operations and enhance the shopping experience for their customers. With its robust features and real-time updates, ShoesHub ensures that both clients and admins have all the tools they need at their fingertips. 
 
----
+# Reset Password
 
-**Note:** For a complete guide on setting up and using the ShoesHub apps, refer to the documentation included in the GitHub repositories.
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/fe4fc5c1-2642-4f61-8772-49e92c6d7cbf
 
-Happy coding with ShoesHub!
+# Home , Filter By Price , Category And Brand 
 
----
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/437e6c4e-b95c-4291-8345-b987213dc8f9
 
-Would you like any additional details or assistance with another part of your project?
+
+# Real-Time Update Of Products Status 
+
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/83228213-06b2-4ad5-ab7d-bb0ef9ef6663
+
+
+# Buy Order
+
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/495b1c85-8d97-4f03-b914-d1dc0357707d
+
+## Installation and Setup
+
+To get started with ShoesHub, follow these steps:
+
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/AhmedBelal31/shoesHub.git](https://github.com/AhmedBelal31/Footwear-Store-Client)
+   cd shoesHub
+   ```
+
+2. **Install dependencies:**
+   ```sh
+   flutter pub get
+   ```
+
+3. **Run the app:**
+   ```sh
+   flutter run
+   ```
+
+4. **Set up Firebase:**
+   - Add your Firebase project configuration files to both the client and admin apps.
+   - Ensure Firebase Authentication and Firestore are enabled in your Firebase project.
