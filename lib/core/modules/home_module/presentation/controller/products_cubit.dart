@@ -73,28 +73,53 @@ class ProductsCubit extends Cubit<ProductsStates> {
       emit(GetProductsByCategoryState());
     }
   }
+  //
+  // void fetchAllProducts() {
+  //   emit(GetProductLoadingState());
+  //   FirebaseFirestore.instance
+  //       .collection(kProductsCollection)
+  //       .orderBy('dateTime')
+  //       .get()
+  //       .then((values) {
+  //     products.clear();
+  //     // filteredProducts.clear();
+  //     for (var element in values.docs) {
+  //       print(element.data());
+  //
+  //       products.add(ProductModel.fromJson(element.data()));
+  //       // filteredProducts.add(ProductModel.fromJson(element.data()));
+  //     }
+  //     emit(GetProductSuccessState());
+  //   }).catchError((error) {
+  //     print(error.message);
+  //     emit(GetProductFailureState(error: error.toString()));
+  //   });
+  // }
+
+
+
+
+
 
   void fetchAllProducts() {
     emit(GetProductLoadingState());
+
     FirebaseFirestore.instance
         .collection(kProductsCollection)
         .orderBy('dateTime')
-        .get()
-        .then((values) {
+        .snapshots()
+        .listen((snapshot) {
       products.clear();
-      // filteredProducts.clear();
-      for (var element in values.docs) {
-        print(element.data());
-
+      for (var element in snapshot.docs) {
         products.add(ProductModel.fromJson(element.data()));
-        // filteredProducts.add(ProductModel.fromJson(element.data()));
       }
       emit(GetProductSuccessState());
-    }).catchError((error) {
-      print(error.message);
+    }, onError: (error) {
+      print(error.toString());
       emit(GetProductFailureState(error: error.toString()));
     });
   }
+
 
   void fetchAllProductsCategories() {
     emit(GetProductsCategoriesLoadingState());
