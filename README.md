@@ -46,32 +46,6 @@ ShoesHub is a comprehensive Flutter application designed for footwear stores. It
  |---------|---------|---------|
  | ![product_details](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/5bc18b2c-2ee0-4c22-9d84-4b752a4bb424)|![save_card](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/f0c27ff2-d4ac-4cb2-9a83-fc0462ac75bc)|![buy_product](https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/1b894921-efea-4ea8-9f15-218d6fed30ff)|
 
-## Installation and Setup
-
-To get started with ShoesHub, follow these steps:
-
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/AhmedBelal31/shoesHub.git](https://github.com/AhmedBelal31/Footwear-Store-Client)
-   cd shoesHub
-   ```
-
-2. **Install dependencies:**
-   ```sh
-   flutter pub get
-   ```
-
-3. **Run the app:**
-   ```sh
-   flutter run
-   ```
-
-4. **Set up Firebase:**
-   - Add your Firebase project configuration files to both the client and admin apps.
-   - Ensure Firebase Authentication and Firestore are enabled in your Firebase project.
-
-By incorporating the above description into your GitHub project's README, you can provide a clear and detailed overview of your ShoesHub application, highlighting its features and functionalities for potential users and contributors.
-
 
 # 🎥 Videos For App .
 
@@ -105,7 +79,34 @@ https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/437e6c4e-
 https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/83228213-06b2-4ad5-ab7d-bb0ef9ef6663
 
 
-# By Order
+# Buy Order
 
 https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/495b1c85-8d97-4f03-b914-d1dc0357707d
+
+## Installation and Setup
+
+To get started with ShoesHub, follow these steps:
+
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/AhmedBelal31/shoesHub.git](https://github.com/AhmedBelal31/Footwear-Store-Client)
+   cd shoesHub
+   ```
+
+2. **Install dependencies:**
+   ```sh
+   flutter pub get
+   ```
+
+3. **Run the app:**
+   ```sh
+   flutter run
+   ```
+
+4. **Set up Firebase:**
+   - Add your Firebase project configuration files to both the client and admin apps.
+   - Ensure Firebase Authentication and Firestore are enabled in your Firebase project.
+
+
+
 
