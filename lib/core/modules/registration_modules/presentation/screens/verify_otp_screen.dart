@@ -46,7 +46,7 @@ class VerifyOtpScreen extends StatelessWidget {
               duration: Duration(seconds: 3),
             ),
           );
-          Navigator.of(context).pushNamed(ResetPasswordScreen.screenRoute);
+          // Navigator.of(context).pushNamed(ResetPasswordScreen.screenRoute);
         }
 
 
