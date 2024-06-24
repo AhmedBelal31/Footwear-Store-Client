@@ -7,7 +7,7 @@ class Assets {
   static const String imagesFootwearIconShoesPictographVector4357819 = 'assets/images/footwear-icon-shoes-pictograph-vector-4357819.jpg';
   static const String imagesFunnyMobile = 'assets/images/funny_mobile.json';
   static const String imagesOtp = 'assets/images/otp.json';
-  static const String imagesPassword animation = 'assets/images/password animation.json';
+  static const String imagesPasswordanimation = 'assets/images/password animation.json';
   static const String imagesPhoneNumber = 'assets/images/phone_number.json';
 
 }
