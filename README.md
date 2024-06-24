@@ -76,12 +76,36 @@ By incorporating the above description into your GitHub project's README, you ca
 # 🎥 Videos For App .
 
 
+# Register Account 
+
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/8c3b03d3-20f4-43b4-968f-7690e25d010a
 
 
+# Login , Verify Account 
+
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/6f321ff9-b466-4525-b674-70c6ffeb29cb
 
 
+# Save Login , Shared Preference
+
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/c4496828-c18c-4bef-826c-c4aed64c2863
 
 
+# Reset Password
+
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/fe4fc5c1-2642-4f61-8772-49e92c6d7cbf
+
+# Home , Filter By Price , Category And Brand 
+
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/437e6c4e-b95c-4291-8345-b987213dc8f9
 
 
+# Real-Time Update Of Products Status 
+
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/83228213-06b2-4ad5-ab7d-bb0ef9ef6663
+
+
+# By Order
+
+https://github.com/AhmedBelal31/Footwear-Store-Client/assets/131663660/495b1c85-8d97-4f03-b914-d1dc0357707d
 
