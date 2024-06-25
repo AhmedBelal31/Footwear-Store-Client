@@ -2,7 +2,7 @@
 
 ShoesHub is a comprehensive Flutter application designed for footwear stores. It consists of two separate apps: one for clients and one for admins. This setup ensures a seamless shopping experience for users while providing admins with robust tools to manage the store's inventory and orders.
 
-## Client App Features
+## Client App Features .
 
 ### Key Features:
 - **Browse Products:** Clients can easily browse through a wide range of footwear products available in the store.
@@ -12,15 +12,15 @@ ShoesHub is a comprehensive Flutter application designed for footwear stores. It
 - **Password Reset:** Users can reset their password by receiving a reset link in their email via Firebase.
 
 <hr>
-
-
-
+<hr>
 <hr>
 
 # Click Here  [See Videos](#videos-for-app) 🖱️
 
 <hr>
 <hr>
+<hr>
+
  # 📱 Screens And Video 🎥
 
 |  App Icon | Splash Screen |
@@ -29,7 +29,7 @@ ShoesHub is a comprehensive Flutter application designed for footwear stores. It
 
 ---
 
-### Registration Module
+### Registration Module 🧑‍🦱
 
 **Registration Screen:** Enables users to sign up with their email, phone number, and password.  
 **Phone Verification:** During registration, users verify their phone number using an OTP sent via Firebase.
