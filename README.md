@@ -195,3 +195,4 @@ To get started with ShoesHub, follow these steps:
 4. **Set up Firebase:**
    - Add your Firebase project configuration files to both the client and admin apps.
    - Ensure Firebase Authentication and Firestore are enabled in your Firebase project.
+   
